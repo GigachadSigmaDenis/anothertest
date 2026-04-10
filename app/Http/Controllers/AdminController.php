@@ -3,24 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     public function loginForm()
     {
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
         return view('admin.login');
     }
 
     public function login(Request $request)
     {
-        $login = $request->login;
-        $password = $request->password;
+        $credentials = [
+            'login' => $request->login,
+            'password' => $request->password
+        ];
 
-        if ($login === 'admin' && $password === '12фвьшт34') {
-            session(['admin' => true]);
-
-            return redirect('/admin/dashboard');
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            
+            if ($user->role === 'admin') {
+                return redirect('/admin/dashboard')->with('success', 'Добро пожаловать в админ-панель');
+            }
+            
+            Auth::logout();
+            return back()->with('error', 'У вас нет прав администратора');
         }
 
         return back()->with('error', 'Неверный логин или пароль');
@@ -31,8 +41,9 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function news()
+    public function logout()
     {
-        return view('admin.news');
+        Auth::logout();
+        return redirect('/admin');
     }
 }

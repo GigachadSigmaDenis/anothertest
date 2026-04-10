@@ -23,7 +23,7 @@ class SiteController extends Controller
         return view('news', compact('news'));
     }
 
-    public function teacfhers()
+    public function teachers()
     {
         $teachers = Teacher::all();
         return view('teachers', compact('teachers'));
@@ -96,4 +96,5 @@ class SiteController extends Controller
         $news = News::findOrFail($id);
         return view('news_show', compact('news'));
     }
+    
 }

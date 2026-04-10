@@ -1,4 +1,5 @@
 @extends('layout')
+
 <style>
     .admin-card {
         display: block;
@@ -7,10 +8,8 @@
         text-decoration: none;
         color: #000;
         background: #fff;
-
         transition: all 0.2s ease;
         height: 140px;
-
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -25,6 +24,7 @@
     .admin-card .icon {
         font-size: 26px;
         margin-bottom: 10px;
+        font-weight: bold;
     }
 
     .admin-card .title {
@@ -33,32 +33,53 @@
         letter-spacing: 0.5px;
     }
 </style>
+
 @section('content')
 
 <div class="container text-center mt-5">
 
-    <h2 class="mb-4">Админ-панель</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Админ-панель</h2>
+        <div>
+            <span class="badge bg-primary me-2">Администратор/Пользователь: {{ auth()->user()->full_name }}</span>
+            <a href="/logout" class="btn btn-danger btn-sm">Выйти</a>
+        </div>
+    </div>
 
     <div class="row justify-content-center g-4">
 
         <div class="col-md-3">
             <a href="/admin/news" class="admin-card">
-                <div class="icon">!</div>
+                <div class="icon">ⓘ</div>
                 <div class="title">Новости</div>
             </a>
         </div>
 
         <div class="col-md-3">
             <a href="/admin/teachers" class="admin-card">
-                <div class="icon">🕮</div>
+                <div class="icon">✎</div>
                 <div class="title">Учителя</div>
             </a>
         </div>
 
         <div class="col-md-3">
             <a href="/admin/schedule" class="admin-card">
-                <div class="icon">✓</div>
+                <div class="icon">🗒</div>
                 <div class="title">Расписание</div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/admin/documents" class="admin-card">
+                <div class="icon">🕮</div>
+                <div class="title">Документы</div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/admin/users" class="admin-card">
+                <div class="icon">🔒︎</div>
+                <div class="title">Пользователи</div>
             </a>
         </div>
 

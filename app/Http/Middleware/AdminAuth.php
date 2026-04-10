@@ -4,14 +4,19 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAuth
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('admin')) {
+        if (!Auth::check()) {
             return redirect('/admin');
+        }
+
+        if (Auth::user()->role !== 'admin') {
+            Auth::logout();
+            return redirect('/admin')->with('error', 'У вас нет прав администратора');
         }
 
         return $next($request);

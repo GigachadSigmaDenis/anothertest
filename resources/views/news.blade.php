@@ -2,119 +2,114 @@
 
 @section('content')
 
-<style>
-    .news-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: #111;
-    }
+<div class="card p-4">
+    <h3 class="text-center mb-4">Новости школы</h3>
 
-    .news-text {
-        font-size: 15px;
-        color: #333;
-        line-height: 1.5;
-    }
+    @if($news->count() > 0)
+        @foreach($news as $item)
+        <div class="card mb-4 news-card">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $item->title }}</h5>
+                        
+                        <p class="text-muted small mb-2">
+                            <strong>Дата публикации:</strong> {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y H:i') }}
+                        </p>
 
-    .news-date {
-        font-size: 12px;
-        color: #666;
-    }
+                        <p class="card-text">
+                            {{ Str::limit(strip_tags($item->content), 200) }}
+                        </p>
 
-    .news-card {
-        border: 1px solid #dcdcdc;
-        background: #fafafa;
-        transition: 0.2s ease;
-    }
+                        <span class="badge 
+                            @if($item->category == 'безопасность') bg-danger
+                            @elseif($item->category == 'профориентация') bg-warning
+                            @else bg-success
+                            @endif">
+                            {{ $item->category }}
+                        </span>
 
-    .news-card:hover {
-        background: #f3f6f9;
-    }
-
-    /* мягкие “дымные” метки */
-    .badge-soft {
-        font-size: 12px;
-        padding: 5px 10px;
-        border-radius: 0;
-        border: 1px solid #ccc;
-        background: #eef2f6;
-        color: #2c3e50;
-    }
-
-    .badge-danger-soft {
-        background: #f3eaea;
-        border: 1px solid #e0bcbc;
-        color: #7a2d2d;
-    }
-
-    .badge-warning-soft {
-        background: #f6f3ea;
-        border: 1px solid #e0d6bc;
-        color: #6b5a2d;
-    }
-
-    .badge-success-soft {
-        background: #eaf3ee;
-        border: 1px solid #bcdcc8;
-        color: #2d6b45;
-    }
-</style>
-
-<h4 class="mb-4">Новости</h4>
-
-@foreach($news as $item)
-
-<div class="card news-card mb-3">
-    <div class="row g-0">
-
-        {{-- ТЕКСТ --}}
-        <div class="col-md-8">
-            <div class="card-body">
-
-                <div class="news-title mb-1">
-                    {{ $item->title }}
+                        <div class="mt-3">
+                            <a href="/news/{{ $item->id }}" class="btn btn-primary btn-sm">
+                                Подробнее →
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="news-date mb-2">
-                    {{ $item->published_at }}
+                <div class="col-md-4">
+                    @if($item->image)
+                        <img src="{{ asset('storage/' . $item->image) }}" 
+                             class="news-image"
+                             alt="{{ $item->title }}">
+                    @else
+                        <div class="news-image-placeholder">
+                            <span>Нет фото</span>
+                        </div>
+                    @endif
                 </div>
-
-                <p class="news-text">
-                    {{ Str::limit($item->content, 180) }}
-                </p>
-
-                {{-- МЕТКА --}}
-                <span class="badge-soft
-                    @if($item->category == 'безопасность') badge-danger-soft
-                    @elseif($item->category == 'профориентация') badge-warning-soft
-                    @else badge-success-soft
-                    @endif">
-                    {{ $item->category }}
-                </span>
-
-                <br><br>
-
-                <a href="/news/{{ $item->id }}" class="btn btn-outline-dark btn-sm">
-                    Подробнее
-                </a>
-
             </div>
         </div>
-
-        {{-- КАРТИНКА --}}
-        <div class="col-md-4 d-flex align-items-center p-2">
-
-            @if($item->image)
-                <img 
-                    src="{{ asset('storage/' . $item->image) }}" 
-                    style="width:100%; height:160px; object-fit:cover; border:1px solid #ddd;"
-                >
-            @endif
-
+        @endforeach
+    @else
+        <div class="alert alert-info text-center">
+            Новостей пока нет
         </div>
-
-    </div>
+    @endif
 </div>
 
-@endforeach
+<style>
+    .news-card {
+        border: 1px solid #e0e0e0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .news-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        border-color: #4e73df;
+    }
+    
+    .news-image {
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+        object-fit: cover;
+    }
+    
+    .news-image-placeholder {
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+        background: #f0f2f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+    }
+    
+    .badge {
+        font-size: 12px;
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+    
+    .card-title {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .btn-primary {
+        background: #4e73df;
+        border: none;
+        border-radius: 8px;
+    }
+    
+    .btn-primary:hover {
+        background: #224abe;
+    }
+</style>
 
 @endsection

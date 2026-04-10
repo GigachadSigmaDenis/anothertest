@@ -70,7 +70,7 @@
     </div>
 
     <div class="text-center mb-3">
-        <a href="/admin/schedule/create" class="btn btn-success">
+        <a href="/teacher/schedule/create" class="btn btn-success">
             Добавить день
         </a>
     </div>
@@ -88,7 +88,7 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h5>{{ $day }}</h5>
 
-                <a href="/admin/schedule/edit?day={{ $day }}&week_start={{ $weekStart->format('Y-m-d') }}&class={{ $class }}" class="btn btn-sm btn-primary">
+                <a href="/teacher/schedule/edit?day={{ $day }}&week_start={{ $weekStart->format('Y-m-d') }}&class={{ $class }}" class="btn btn-sm btn-primary">
                     Редактировать
                 </a>
             </div>

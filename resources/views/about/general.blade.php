@@ -2,28 +2,86 @@
 
 @section('content')
 
-<h3>Основные сведения</h3>
+<div class="card p-4">
+    <h3 class="text-center mb-4">Основные сведения</h3>
 
-<p><strong>Полное наименование:</strong><br>
-Муниципальное бюджетное общеобразовательное учреждение
-«Притобольная средняя общеобразовательная школа»
-</p>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">🗐</span>
+                </div>
+                <h5 class="text-center mb-3">Полное наименование</h5>
+                <p class="text-center mb-0">Муниципальное бюджетное общеобразовательное учреждение «Притобольная средняя общеобразовательная школа»</p>
+            </div>
+        </div>
 
-<p><strong>Сокращенное наименование:</strong><br>
-МБОУ «Притобольная СОШ»
-</p>
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">🗎</span>
+                </div>
+                <h5 class="text-center mb-3">Сокращенное наименование</h5>
+                <p class="text-center mb-0">МБОУ «Притобольная СОШ»</p>
+            </div>
+        </div>
 
-<p><strong>Дата создания:</strong><br>
-1985 год
-</p>
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">🗓</span>
+                </div>
+                <h5 class="text-center mb-3">Дата создания</h5>
+                <p class="text-center mb-0">1985 год</p>
+            </div>
+        </div>
 
-<p><strong>Учредитель:</strong><br>
-Администрация Притобольного района
-</p>
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">🗣</span>
+                </div>
+                <h5 class="text-center mb-3">Учредитель</h5>
+                <p class="text-center mb-0">Администрация Притобольного района</p>
+            </div>
+        </div>
 
-<p><strong>Место нахождения:</strong><br>
-Курганская область,
-Притобольный район, с. Боровлянка, ул. Центральная, 6
-</p>
+        <div class="col-md-12">
+            <div class="card bg-light p-3">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">⚲</span>
+                </div>
+                <h5 class="text-center mb-3">Место нахождения</h5>
+                <p class="text-center mb-0">
+                    Курганская область, Притобольный район,<br>
+                    с. Боровлянка, ул. Центральная, 6
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">⏱</span>
+                </div>
+                <h5 class="text-center mb-3">Режим работы</h5>
+                <p class="text-center mb-0">Понедельник - пятница<br>08:00 - 16:00</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-light p-3 h-100">
+                <div class="text-center mb-2">
+                    <span style="font-size: 32px;">☏</span>
+                </div>
+                <h5 class="text-center mb-3">Контакты</h5>
+                <p class="text-center mb-0">
+                    Телефон: 8 (35239) 9-37-05<br>
+                    Email: pritschool@mail.ru
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
