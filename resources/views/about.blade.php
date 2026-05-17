@@ -2,55 +2,103 @@
 
 @section('content')
 
-<div class="row g-4">
-    <div class="col-md-6">
-        <a href="/about/general" class="text-decoration-none">
-            <div class="card p-4 text-center h-100" style="transition: all 0.3s ease; cursor: pointer;">
-                <h4>Основные сведения</h4>
-                <p class="text-muted mb-0">Информация о школе, учредителе, месте нахождения</p>
+<section class="about-page">
+
+    <div class="about-main-card mb-4">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <span class="page-label">О школе</span>
+
+                <h2 class="about-main-title">
+                    Сведения об образовательной организации
+                </h2>
+
+                <p class="about-main-text">
+                    В этом разделе размещена основная информация о МБОУ «Притобольная СОШ»:
+                    сведения о школе, структуре управления, официальных документах и руководстве.
+                </p>
             </div>
-        </a>
+
+            <div class="col-lg-4">
+                <div class="about-main-info">
+                    <h4>МБОУ «Притобольная СОШ»</h4>
+                    <p>
+                        Курганская область,<br>
+                        Притобольный район,<br>
+                        с. Боровлянка
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col-md-6">
-        <a href="/about/structure" class="text-decoration-none">
-            <div class="card p-4 text-center h-100" style="transition: all 0.3s ease; cursor: pointer;">
-                <h4>Структура и органы управления</h4>
-                <p class="text-muted mb-0">Руководство и педагогический состав</p>
+    <div class="about-block mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">Разделы</span>
+                <h3>Информация о школе</h3>
             </div>
-        </a>
+        </div>
+
+        <div class="about-links-grid">
+            <a href="/about/general" class="about-link-card">
+                <div class="about-link-icon">🏫</div>
+
+                <div class="about-link-content">
+                    <h4>Основные сведения</h4>
+                    <p>
+                        Информация о школе, учредителе, месте нахождения,
+                        режиме работы и контактах.
+                    </p>
+                </div>
+
+                <div class="about-link-arrow">→</div>
+            </a>
+
+            <a href="/about/structure" class="about-link-card">
+                <div class="about-link-icon">👥</div>
+
+                <div class="about-link-content">
+                    <h4>Структура и органы управления</h4>
+                    <p>
+                        Руководство школы, заместители директора,
+                        коллегиальные органы управления.
+                    </p>
+                </div>
+
+                <div class="about-link-arrow">→</div>
+            </a>
+
+            <a href="/about/documents" class="about-link-card">
+                <div class="about-link-icon">📄</div>
+
+                <div class="about-link-content">
+                    <h4>Документы</h4>
+                    <p>
+                        Устав, лицензии, локальные акты и другие
+                        официальные документы школы.
+                    </p>
+                </div>
+
+                <div class="about-link-arrow">→</div>
+            </a>
+
+            <a href="/about/management" class="about-link-card">
+                <div class="about-link-icon">👨‍💼</div>
+
+                <div class="about-link-content">
+                    <h4>Руководство</h4>
+                    <p>
+                        Администрация школы, контакты руководителя
+                        и информация о приёме граждан.
+                    </p>
+                </div>
+
+                <div class="about-link-arrow">→</div>
+            </a>
+        </div>
     </div>
 
-    <div class="col-md-6">
-        <a href="/about/documents" class="text-decoration-none">
-            <div class="card p-4 text-center h-100" style="transition: all 0.3s ease; cursor: pointer;">
-                <h4>Документы</h4>
-                <p class="text-muted mb-0">Устав, лицензии, локальные акты</p>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-md-6">
-        <a href="/about/management" class="text-decoration-none">
-            <div class="card p-4 text-center h-100" style="transition: all 0.3s ease; cursor: pointer;">
-                <h4>Руководство</h4>
-                <p class="text-muted mb-0">Администрация школы, контакты</p>
-            </div>
-        </a>
-    </div>
-</div>
-
-<style>
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        border-color: #4e73df;
-    }
-    
-    .card {
-        border: 1px solid #e0e0e0;
-        transition: all 0.3s ease;
-    }
-</style>
+</section>
 
 @endsection

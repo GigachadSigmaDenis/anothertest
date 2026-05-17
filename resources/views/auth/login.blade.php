@@ -5,10 +5,6 @@
 <div class="card p-4">
     <h3>Вход</h3>
 
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
     <form method="POST" action="/login">
         @csrf
 

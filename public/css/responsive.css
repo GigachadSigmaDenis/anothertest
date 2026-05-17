@@ -1,0 +1,1937 @@
+@media (max-width: 991px) {
+    .navbar-nav {
+        padding: 10px 0 16px;
+    }
+
+    .nav-link {
+        margin-bottom: 4px;
+    }
+
+    .home-title {
+        font-size: 28px;
+    }
+
+    .home-image {
+        height: 260px;
+    }
+
+    .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .director-photo {
+        height: 300px;
+        max-width: 320px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .director-card h4,
+    .director-position,
+    .director-info {
+        text-align: center;
+    }
+
+    .director-message {
+        margin-top: 10px;
+    }
+
+    #teachersGrid .teacher-card .card-img-top,
+    #teachersGrid .bg-secondary {
+        height: 300px !important;
+    }
+    .news-list-image,
+    .news-list-placeholder {
+        height: 260px;
+        min-height: 260px;
+    }
+
+    .single-news-header h2 {
+        font-size: 28px;
+    }
+
+    .about-section,
+    .general-section {
+        padding: 22px;
+    }
+
+    .general-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .general-card-wide {
+        grid-column: span 1;
+    }
+
+    .general-card,
+    .map-card {
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .general-card {
+        min-height: auto;
+    }
+
+    .map-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .map-header .btn {
+        width: 100%;
+    }
+
+    .map-frame {
+        height: 360px;
+    }
+    .about-main-title {
+        font-size: 30px;
+    }
+
+    .about-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .structure-grid-three {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    main.container {
+        margin-top: 18px !important;
+    }
+
+    .home-hero,
+    .info-card,
+    .latest-news,
+    .gosuslugi-box,
+    .results-section,
+    .director-section,
+    .teachers-preview {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .home-title {
+        font-size: 24px;
+        line-height: 1.3;
+    }
+
+    .home-text {
+        font-size: 15px;
+    }
+
+    .home-actions {
+        flex-direction: column;
+    }
+
+    .home-actions .btn {
+        width: 100%;
+    }
+
+    .home-image {
+        height: 220px;
+    }
+
+    .quick-card {
+        padding: 18px;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .result-item {
+        padding: 24px 16px;
+    }
+
+    .result-number {
+        font-size: 42px;
+    }
+
+    .info-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .info-row strong {
+        text-align: left;
+    }
+
+    .news-box {
+        padding: 18px;
+    }
+
+    .news-content h4 {
+        font-size: 21px;
+    }
+
+    .news-image,
+    .news-empty {
+        height: 210px;
+    }
+
+    .director-card {
+        padding: 18px;
+    }
+
+    .director-photo {
+        width: 100%;
+        height: 280px;
+    }
+
+    .director-message {
+        padding: 18px;
+    }
+
+    .teacher-preview-photo-wrap,
+    .teacher-preview-empty {
+        height: 280px;
+        border-radius: 20px;
+    }
+
+    .teacher-preview-photo {
+        border-radius: 20px !important;
+    }
+
+    #teachersGrid .teacher-card .card-img-top,
+    #teachersGrid .bg-secondary {
+        height: 280px !important;
+        border-radius: 20px !important;
+    }
+
+    .gosuslugi-box .btn {
+        width: 100%;
+    }
+
+    .footer {
+        margin-top: 35px;
+    }
+
+    .footer-inner {
+        padding: 28px 0 18px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table-responsive {
+        border-radius: 16px;
+    }
+
+     .page-section,
+    .single-news-card {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .news-list-card {
+        border-radius: 16px;
+    }
+
+    .news-list-content {
+        padding: 20px;
+    }
+
+    .news-list-content h4 {
+        font-size: 21px;
+    }
+
+    .news-list-image,
+    .news-list-placeholder {
+        width: calc(100% - 24px);
+        height: 230px;
+        min-height: 230px;
+        margin: 12px;
+        border-radius: 15px;
+    }
+
+    .single-news-header h2 {
+        font-size: 24px;
+    }
+
+    .single-news-content {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .single-news-image-wrap {
+        padding: 10px;
+        border-radius: 16px;
+    }
+
+    .single-news-image {
+        border-radius: 14px;
+    }
+     .general-section {
+        padding: 18px;
+    }
+
+    .general-card {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .general-icon {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        font-size: 23px;
+    }
+
+    .general-card h4 {
+        font-size: 18px;
+    }
+
+    .general-card p {
+        font-size: 14px;
+    }
+
+    .map-header h4 {
+        font-size: 21px;
+    }
+
+    .map-frame {
+        height: 300px;
+    }
+
+    .about-main-card,
+    .about-block {
+        padding: 24px;
+        border-radius: 18px;
+    }
+
+    .about-main-title {
+        font-size: 26px;
+    }
+
+    .about-main-text {
+        font-size: 15px;
+    }
+
+    .about-links-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .about-link-card {
+        min-height: auto;
+        border-radius: 18px;
+        padding: 22px 58px 22px 22px;
+    }
+
+    .about-info-card {
+        border-radius: 18px;
+        padding: 22px;
+    }
+
+     .structure-hero,
+    .structure-level {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .structure-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .structure-main-card {
+        align-items: flex-start;
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .structure-main-content h4 {
+        font-size: 23px;
+    }
+
+    .structure-level-title span {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .top-header {
+        padding: 16px 0;
+    }
+
+    .header-container {
+        gap: 10px;
+    }
+
+    .header-title {
+        font-size: 21px;
+    }
+
+    .header-subtitle {
+        font-size: 12px;
+    }
+
+    .header-logo {
+        height: 58px;
+    }
+
+    .navbar-brand {
+        font-size: 16px;
+    }
+
+    .home-hero,
+    .info-card,
+    .latest-news,
+    .gosuslugi-box,
+    .results-section,
+    .director-section,
+    .teachers-preview {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .page-label {
+        font-size: 12px;
+        padding: 6px 11px;
+    }
+
+    .home-title {
+        font-size: 21px;
+    }
+
+    .home-text {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .home-image {
+        height: 190px;
+    }
+
+    .quick-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+    }
+
+    .section-head h3 {
+        font-size: 23px;
+    }
+
+    .result-number {
+        font-size: 38px;
+    }
+
+    .result-item p {
+        font-size: 14px;
+    }
+
+    .director-photo {
+        height: 250px;
+    }
+
+    .director-card h4 {
+        font-size: 18px;
+    }
+
+    .director-message p {
+        font-size: 14px;
+    }
+
+    .teacher-preview-photo-wrap,
+    .teacher-preview-empty {
+        height: 245px;
+        margin: 12px 12px 0;
+        border-radius: 18px;
+    }
+
+    .teacher-preview-photo {
+        border-radius: 18px !important;
+    }
+
+    #teachersGrid .teacher-card .card-img-top,
+    #teachersGrid .bg-secondary {
+        height: 245px !important;
+        width: calc(100% - 24px);
+        margin: 12px 12px 0;
+        border-radius: 18px !important;
+    }
+
+    .teacher-preview-body {
+        padding: 16px;
+    }
+
+    .teacher-preview-body h5 {
+        font-size: 17px;
+    }
+
+    .teacher-preview-body p {
+        font-size: 14px;
+    }
+
+    .news-content h4 {
+        font-size: 20px;
+    }
+
+    .news-content p,
+    .gosuslugi-box p,
+    .info-card p {
+        font-size: 14px;
+    }
+
+    .btn,
+    .btn-lg {
+        width: 100%;
+        padding: 11px 16px;
+        font-size: 15px;
+    }
+
+    .modal-content {
+        padding: 22px !important;
+        border-radius: 18px !important;
+    }
+
+    .teacher-photo-full {
+        border-radius: 18px !important;
+    }
+
+     .page-section,
+    .single-news-card {
+        padding: 18px;
+        border-radius: 14px;
+    }
+
+    .news-list {
+        gap: 16px;
+    }
+
+    .news-list-content {
+        padding: 18px;
+    }
+
+    .news-list-content h4 {
+        font-size: 20px;
+    }
+
+    .news-list-text,
+    .news-date,
+    .single-news-date {
+        font-size: 14px;
+    }
+
+    .news-list-image,
+    .news-list-placeholder {
+        height: 200px;
+        min-height: 200px;
+        border-radius: 14px;
+    }
+
+    .single-news-header h2 {
+        font-size: 21px;
+    }
+
+    .single-news-content {
+        font-size: 14px;
+    }
+    .about-main-card,
+    .about-block {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .about-main-title {
+        font-size: 22px;
+    }
+
+    .about-link-card {
+        flex-direction: column;
+        padding: 20px;
+        gap: 14px;
+    }
+
+    .about-link-arrow {
+        position: static;
+        margin-top: 4px;
+    }
+
+    .about-link-icon {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+        font-size: 24px;
+    }
+
+    .about-link-content h4 {
+        font-size: 19px;
+    }
+
+    .about-link-content p,
+    .about-info-card p {
+        font-size: 14px;
+    }
+    .structure-hero,
+    .structure-level {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .structure-main-card,
+    .structure-card {
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .structure-avatar {
+        width: 56px;
+        height: 56px;
+        flex-basis: 56px;
+        border-radius: 18px;
+        font-size: 27px;
+    }
+
+    .structure-level-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .structure-level-title span {
+        font-size: 18px;
+    }
+
+    .structure-main-content h4,
+    .structure-card h4 {
+        font-size: 18px;
+    }
+
+    .structure-name,
+    .structure-hero-text {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .home-title {
+        font-size: 19px;
+    }
+
+    .section-head h3 {
+        font-size: 21px;
+    }
+
+    .home-image,
+    .news-image,
+    .news-empty {
+        height: 175px;
+    }
+
+    .director-photo {
+        height: 225px;
+    }
+
+    .teacher-preview-photo-wrap,
+    .teacher-preview-empty {
+        height: 220px;
+        margin: 10px 10px 0;
+        border-radius: 17px;
+    }
+
+    .teacher-preview-photo {
+        border-radius: 17px !important;
+    }
+
+    #teachersGrid .teacher-card .card-img-top,
+    #teachersGrid .bg-secondary {
+        height: 220px !important;
+        width: calc(100% - 20px);
+        margin: 10px 10px 0;
+        border-radius: 17px !important;
+    }
+
+    .result-number {
+        font-size: 34px;
+    }
+
+    .news-list-image,
+    .news-list-placeholder {
+        height: 175px;
+        min-height: 175px;
+    }
+
+    .single-news-header h2 {
+        font-size: 20px;
+    }
+
+    .map-frame {
+        height: 260px;
+    }
+}
+/* =========================
+   Адаптив страницы "Руководство"
+========================= */
+
+@media (max-width: 991px) {
+    .management-card {
+        grid-template-columns: 240px 1fr;
+        gap: 22px;
+    }
+
+    .management-photo {
+        height: 300px;
+    }
+
+    .management-contacts {
+        grid-template-columns: 1fr;
+    }
+
+    .management-header h2 {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .management-hero,
+    .management-card {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .management-card {
+        grid-template-columns: 1fr;
+    }
+
+    .management-photo-box {
+        position: static;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .management-photo {
+        height: 340px;
+    }
+
+    .management-header {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .management-hero,
+    .management-card {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .management-photo-box {
+        max-width: 100%;
+        border-radius: 18px;
+        padding: 12px;
+    }
+
+    .management-photo {
+        height: 300px;
+        border-radius: 16px;
+    }
+
+    .management-header h2 {
+        font-size: 22px;
+    }
+
+    .management-header p,
+    .management-hero-text,
+    .management-info-item p {
+        font-size: 14px;
+    }
+
+    .management-contact-item,
+    .management-info-item {
+        padding: 15px;
+        border-radius: 14px;
+    }
+
+    .management-info-item h4 {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 420px) {
+    .management-photo {
+        height: 260px;
+    }
+}
+/* =========================
+   Адаптив документов
+========================= */
+
+@media (max-width: 991px) {
+    .documents-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .documents-hero,
+    .documents-section {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .documents-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .document-card {
+        min-height: auto;
+        border-radius: 18px;
+        padding: 22px;
+    }
+}
+
+@media (max-width: 576px) {
+    .documents-hero,
+    .documents-section {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .documents-hero-text {
+        font-size: 14px;
+    }
+
+    .document-card {
+        padding: 20px;
+    }
+
+    .document-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        font-size: 14px;
+    }
+
+    .document-info h4 {
+        font-size: 17px;
+    }
+
+    .document-info p {
+        font-size: 14px;
+    }
+
+    .document-arrow {
+        position: static;
+        margin-top: 18px;
+    }
+
+    .documents-empty {
+        padding: 24px;
+        border-radius: 18px;
+    }
+}
+@media (max-width: 768px) {
+    .documents-search-wrap {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .documents-count {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .documents-search-input {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    .documents-search-icon {
+        left: 14px;
+    }
+}
+/* =========================
+   Адаптив страницы учителей
+========================= */
+
+@media (max-width: 991px) {
+    .teachers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .teacher-photo-wrap-new,
+    .teacher-photo-empty-new {
+        height: 300px;
+    }
+
+    .teacher-modal-grid {
+        grid-template-columns: 260px 1fr;
+        gap: 22px;
+    }
+
+    .teacher-modal-photo,
+    .teacher-modal-photo-empty {
+        height: 340px;
+    }
+
+    .teacher-modal-info h3 {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 768px) {
+    .teachers-hero,
+    .teachers-toolbar {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .teachers-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .teachers-count {
+        text-align: center;
+    }
+
+    .teachers-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .teacher-photo-wrap-new,
+    .teacher-photo-empty-new {
+        height: 320px;
+    }
+
+    .teacher-modal-overlay {
+        padding: 18px;
+        align-items: flex-start;
+    }
+
+    .teacher-modal-content {
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .teacher-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-modal-photo-box {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .teacher-modal-info {
+        padding-right: 0;
+        text-align: center;
+    }
+
+    .teacher-modal-info h3 {
+        font-size: 24px;
+    }
+
+    .teacher-modal-back {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .teachers-hero,
+    .teachers-toolbar {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .teachers-hero-text {
+        font-size: 14px;
+    }
+
+    .teachers-search-input {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    .teacher-card-new {
+        border-radius: 20px;
+    }
+
+    .teacher-photo-wrap-new,
+    .teacher-photo-empty-new {
+        height: 260px;
+        margin: 12px 12px 0;
+        border-radius: 18px;
+    }
+
+    .teacher-photo-new {
+        border-radius: 18px;
+    }
+
+    .teacher-card-body-new {
+        padding: 18px;
+    }
+
+    .teacher-card-body-new h4 {
+        font-size: 18px;
+    }
+
+    .teacher-card-body-new p {
+        font-size: 14px;
+    }
+
+    .teacher-modal-overlay {
+        padding: 12px;
+    }
+
+    .teacher-modal-content {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .teacher-modal-close {
+        top: 12px;
+        right: 12px;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        font-size: 25px;
+    }
+
+    .teacher-modal-photo-box {
+        border-radius: 18px;
+        padding: 12px;
+    }
+
+    .teacher-modal-photo,
+    .teacher-modal-photo-empty {
+        height: 280px;
+        border-radius: 16px;
+    }
+
+    .teacher-modal-info h3 {
+        font-size: 21px;
+        margin-bottom: 18px;
+    }
+
+    .teacher-modal-block {
+        padding: 16px;
+        border-radius: 16px;
+        text-align: left;
+    }
+
+    .teacher-modal-block h4 {
+        font-size: 16px;
+    }
+
+    .teacher-modal-block p {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .teacher-photo-wrap-new,
+    .teacher-photo-empty-new {
+        height: 230px;
+    }
+
+    .teacher-modal-photo,
+    .teacher-modal-photo-empty {
+        height: 240px;
+    }
+}
+/* =========================
+   Адаптив расписания
+========================= */
+
+@media (max-width: 991px) {
+    .schedule-summary {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-hero,
+    .schedule-filter-card,
+    .schedule-table-card,
+    .schedule-empty {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .schedule-table-card {
+        padding: 16px;
+    }
+
+    .schedule-table thead th,
+    .schedule-table tbody td {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+
+    .subject-badge {
+        font-size: 13px;
+        padding: 7px 11px;
+    }
+}
+
+@media (max-width: 576px) {
+    .schedule-hero,
+    .schedule-filter-card,
+    .schedule-empty {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .schedule-hero-text {
+        font-size: 14px;
+    }
+
+    .schedule-filter-card .form-label {
+        font-size: 14px;
+    }
+
+    .schedule-summary-item {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .schedule-summary-item strong {
+        font-size: 15px;
+    }
+
+    .schedule-table-card {
+        padding: 12px;
+        border-radius: 16px;
+    }
+
+    .lesson-number-col {
+        width: 64px;
+    }
+
+    .subject-cell {
+        min-width: 130px;
+    }
+
+    .subject-badge {
+        white-space: normal;
+    }
+}
+/* =========================
+   Адаптив админ-панели
+========================= */
+
+@media (max-width: 991px) {
+    .admin-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-user-card {
+        max-width: 420px;
+    }
+
+    .admin-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-hero,
+    .admin-section {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-hero-content h2 {
+        font-size: 28px;
+    }
+
+    .admin-grid,
+    .admin-grid-placeholder {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-card-new {
+        min-height: auto;
+        border-radius: 18px;
+        padding: 22px 58px 22px 22px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-hero,
+    .admin-section {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-hero-content h2 {
+        font-size: 23px;
+    }
+
+    .admin-hero-content p {
+        font-size: 14px;
+    }
+
+    .admin-user-card {
+        grid-template-columns: 48px 1fr;
+        border-radius: 18px;
+        padding: 16px;
+    }
+
+    .admin-user-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        font-size: 20px;
+    }
+
+    .admin-card-new {
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px;
+    }
+
+    .admin-card-icon {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+        border-radius: 16px;
+        font-size: 24px;
+    }
+
+    .admin-card-content h4 {
+        font-size: 19px;
+    }
+
+    .admin-card-content p {
+        font-size: 14px;
+    }
+
+    .admin-card-arrow,
+    .admin-card-status {
+        position: static;
+        margin-top: 4px;
+    }
+}
+/* =========================
+   Адаптив админки: новости
+========================= */
+
+@media (max-width: 991px) {
+    .admin-news-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-news-hero,
+    .admin-news-editor,
+    .admin-news-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-news-editor-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-news-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-news-card-image,
+    .admin-news-card-placeholder {
+        height: 220px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-news-hero,
+    .admin-news-editor,
+    .admin-news-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-news-hero-text,
+    .admin-news-text {
+        font-size: 14px;
+    }
+
+    .admin-news-editor-head h4 {
+        font-size: 21px;
+    }
+
+    .admin-news-side {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .admin-news-card-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-news-card-image,
+    .admin-news-card-placeholder {
+        height: 190px;
+    }
+}
+@media (max-width: 576px) {
+    .admin-delete-modal {
+        padding: 14px;
+    }
+
+    .admin-delete-modal-box {
+        padding: 26px 18px 18px;
+        border-radius: 18px;
+    }
+
+    .admin-delete-modal-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-delete-modal-box h3 {
+        font-size: 21px;
+    }
+}
+/* =========================
+   Адаптив админки: учителя
+========================= */
+
+@media (max-width: 1200px) {
+    .admin-teachers-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 991px) {
+    .admin-teachers-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-teacher-photo-wrap,
+    .admin-teacher-photo-empty {
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-teachers-hero,
+    .admin-teachers-editor,
+    .admin-teachers-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-teachers-editor-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-teachers-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-teacher-photo-wrap,
+    .admin-teacher-photo-empty {
+        height: 320px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-teachers-hero,
+    .admin-teachers-editor,
+    .admin-teachers-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-teachers-hero-text,
+    .admin-teacher-card-body p {
+        font-size: 14px;
+    }
+
+    .admin-teachers-editor-head h4 {
+        font-size: 21px;
+    }
+
+    .admin-teachers-side {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .admin-teacher-photo-wrap,
+    .admin-teacher-photo-empty {
+        height: 260px;
+        border-radius: 18px;
+    }
+
+    .admin-teacher-photo {
+        border-radius: 18px;
+    }
+
+    .admin-teacher-card-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-delete-modal {
+        padding: 14px;
+    }
+
+    .admin-delete-modal-box {
+        padding: 26px 18px 18px;
+        border-radius: 18px;
+    }
+
+    .admin-delete-modal-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-delete-modal-box h3 {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 420px) {
+    .admin-teacher-photo-wrap,
+    .admin-teacher-photo-empty {
+        height: 230px;
+    }
+}
+/* =========================
+   Адаптив админки: расписание
+========================= */
+
+@media (max-width: 991px) {
+    .admin-schedule-days {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-schedule-editor-head,
+    .admin-schedule-day-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-schedule-day-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-schedule-hero,
+    .admin-schedule-filter,
+    .admin-schedule-editor,
+    .admin-schedule-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-schedule-filter-actions .btn {
+        width: 100%;
+    }
+
+    .admin-schedule-week-badge {
+        white-space: normal;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-schedule-hero,
+    .admin-schedule-filter,
+    .admin-schedule-editor,
+    .admin-schedule-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-schedule-hero-text {
+        font-size: 14px;
+    }
+
+    .admin-schedule-editor-head h4 {
+        font-size: 21px;
+    }
+
+    .admin-schedule-side {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .admin-schedule-lesson-row {
+        grid-template-columns: 44px 1fr;
+    }
+
+    .admin-schedule-lesson-number {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+    }
+
+    .admin-schedule-day-card {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .admin-schedule-day-lesson {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .admin-schedule-day-actions {
+        width: 100%;
+    }
+
+    .admin-schedule-day-actions .btn {
+        width: 100%;
+    }
+}
+/* =========================
+   Адаптив админки: документы
+========================= */
+
+@media (max-width: 991px) {
+    .admin-documents-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-documents-hero,
+    .admin-documents-editor,
+    .admin-documents-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-documents-editor-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-documents-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .admin-document-file-preview {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-document-file-preview .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-documents-hero,
+    .admin-documents-editor,
+    .admin-documents-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-documents-hero-text {
+        font-size: 14px;
+    }
+
+    .admin-documents-editor-head h4 {
+        font-size: 21px;
+    }
+
+    .admin-documents-side {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .admin-document-card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .admin-document-card-actions {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   Адаптив админки: пользователи
+========================= */
+
+@media (max-width: 991px) {
+    .admin-user-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-user-role {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-users-hero,
+    .admin-users-search,
+    .admin-users-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .admin-users-search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-users-count {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-users-hero,
+    .admin-users-search,
+    .admin-users-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-users-hero-text,
+    .admin-user-main p {
+        font-size: 14px;
+    }
+
+    .admin-user-row {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .admin-user-main {
+        align-items: flex-start;
+    }
+
+    .admin-user-avatar-small {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        border-radius: 16px;
+        font-size: 20px;
+    }
+
+    .admin-user-main h4 {
+        font-size: 16px;
+    }
+
+    .admin-user-class-form {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-user-class-form .btn {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .profile-main-card,
+    .profile-section {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .profile-info-grid,
+    .profile-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-main-card,
+    .profile-section {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .profile-schedule-item {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .profile-action-card {
+        padding: 20px;
+        border-radius: 18px;
+    }
+}
+@media (max-width: 768px) {
+    .diary-hero,
+    .diary-filter,
+    .diary-schedule,
+    .diary-empty,
+    .admin-diary-hero,
+    .admin-diary-filter,
+    .admin-diary-lessons,
+    .admin-diary-editor {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .diary-lessons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .diary-modal-head {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-diary-lesson-button {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-diary-link-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .diary-hero,
+    .diary-filter,
+    .diary-schedule,
+    .diary-empty,
+    .admin-diary-hero,
+    .admin-diary-filter,
+    .admin-diary-lessons,
+    .admin-diary-editor {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .diary-modal {
+        padding: 12px;
+    }
+
+    .diary-modal-box {
+        padding: 22px 18px;
+        border-radius: 18px;
+    }
+
+    .diary-modal-head h3 {
+        font-size: 22px;
+    }
+
+    .admin-diary-student-row {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    .staff-grades-hero,
+    .staff-grades-filter,
+    .staff-grades-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .staff-grade-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .staff-grades-hero,
+    .staff-grades-filter,
+    .staff-grades-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .staff-grade-card h4 {
+        font-size: 18px;
+    }
+}
+@media (max-width: 991px) {
+    .announcements-grid,
+    .admin-announcements-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nav-control-panel {
+        position: static;
+        display: none;
+        margin-top: 6px;
+        box-shadow: none;
+    }
+
+    .nav-control-wrapper:hover .nav-control-panel {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .announcements-hero,
+    .announcements-empty,
+    .admin-announcements-hero,
+    .admin-announcements-editor,
+    .admin-announcements-list {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .announcements-grid,
+    .admin-announcements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-announcements-editor-head {
+        flex-direction: column;
+    }
+
+    .announcement-toast-stack {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        max-width: none;
+    }
+
+    .announcement-toast {
+        grid-template-columns: 1fr;
+    }
+
+    .announcement-toast-read {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .announcements-hero,
+    .announcements-empty,
+    .admin-announcements-hero,
+    .admin-announcements-editor,
+    .admin-announcements-list {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .admin-announcement-card-actions {
+        grid-template-columns: 1fr;
+    }
+}
+/* =========================
+   Адаптив панели управления
+========================= */
+
+@media (max-width: 991px) {
+    .nav-control-wrapper {
+        width: 100%;
+    }
+
+    .nav-control-btn {
+        width: 100%;
+        text-align: left;
+        padding: 10px 0;
+    }
+
+    .nav-control-panel {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-top: 6px;
+        box-shadow: none;
+        border-radius: 14px;
+        background: var(--blue-soft);
+    }
+
+    .nav-control-wrapper:hover .nav-control-panel,
+    .nav-control-wrapper:focus-within .nav-control-panel {
+        display: block;
+    }
+
+    .nav-control-panel a,
+    .nav-control-panel span {
+        white-space: normal;
+        background: var(--white);
+        margin-bottom: 6px;
+    }
+
+    .nav-control-panel a:last-child,
+    .nav-control-panel span:last-child {
+        margin-bottom: 0;
+    }
+}
+/* =========================
+   Адаптив одного объявления
+========================= */
+
+@media (max-width: 768px) {
+    .announcement-show-card {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+    .announcement-show-dates {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .announcement-show-image-wrap {
+        padding: 10px;
+        border-radius: 18px;
+    }
+
+    .announcement-show-image {
+        border-radius: 14px;
+        max-height: 520px;
+    }
+
+    .announcement-show-content {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .announcement-show-card {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .announcement-show-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .announcement-show-image {
+        max-height: 420px;
+    }
+
+    .announcement-show-content {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+}
+@media (max-width: 991px) {
+    .announcements-nav-link {
+        width: fit-content;
+    }
+
+    .announcements-nav-link-active {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        padding: 10px 14px !important;
+    }
+}

@@ -1,89 +1,125 @@
 @extends('layout')
 
-<style>
-    .admin-card {
-        display: block;
-        border: 1px solid #000;
-        padding: 25px 15px;
-        text-decoration: none;
-        color: #000;
-        background: #fff;
-        transition: all 0.2s ease;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .admin-card:hover {
-        background: #000;
-        color: #fff;
-    }
-
-    .admin-card .icon {
-        font-size: 26px;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-
-    .admin-card .title {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-</style>
-
 @section('content')
 
-<div class="container text-center mt-5">
+<section class="admin-dashboard">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Админ-панель</h2>
-        <div>
-            <span class="badge bg-primary me-2">Администратор/Пользователь: {{ auth()->user()->full_name }}</span>
-            <a href="/logout" class="btn btn-danger btn-sm">Выйти</a>
+    <div class="admin-hero mb-4">
+        <div class="admin-hero-content">
+            <span class="page-label">Панель управления</span>
+
+            <h2>Админ-панель</h2>
+
+            <p>
+                Управление основными разделами сайта школы: новостями, педагогами,
+                расписанием, документами и пользователями.
+            </p>
+        </div>
+
+        <div class="admin-user-card">
+            <div class="admin-user-avatar">
+                {{ mb_substr(auth()->user()->full_name ?? 'А', 0, 1) }}
+            </div>
+
+            <div>
+                <span>Администратор</span>
+                <strong>{{ auth()->user()->full_name }}</strong>
+            </div>
+
+            <a href="/logout" class="btn btn-secondary btn-sm">
+                Выйти
+            </a>
         </div>
     </div>
 
-    <div class="row justify-content-center g-4">
-
-        <div class="col-md-3">
-            <a href="/admin/news" class="admin-card">
-                <div class="icon">ⓘ</div>
-                <div class="title">Новости</div>
-            </a>
+    <div class="admin-section mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">Разделы</span>
+                <h3>Управление сайтом</h3>
+            </div>
         </div>
 
-        <div class="col-md-3">
-            <a href="/admin/teachers" class="admin-card">
-                <div class="icon">✎</div>
-                <div class="title">Учителя</div>
+        <div class="admin-grid">
+            <a href="/admin/news" class="admin-card-new">
+                <div class="admin-card-icon">📰</div>
+
+                <div class="admin-card-content">
+                    <h4>Новости</h4>
+                    <p>Добавление, редактирование и публикация новостей школы</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/teachers" class="admin-card-new">
+                <div class="admin-card-icon">👩‍🏫</div>
+
+                <div class="admin-card-content">
+                    <h4>Учителя</h4>
+                    <p>Управление педагогическим составом и фотографиями</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/schedule" class="admin-card-new">
+                <div class="admin-card-icon">📅</div>
+
+                <div class="admin-card-content">
+                    <h4>Расписание</h4>
+                    <p>Редактирование расписания уроков по классам и неделям</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/documents" class="admin-card-new">
+                <div class="admin-card-icon">📄</div>
+
+                <div class="admin-card-content">
+                    <h4>Документы</h4>
+                    <p>Публикация официальных документов и ссылок</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/users" class="admin-card-new">
+                <div class="admin-card-icon">👤</div>
+
+                <div class="admin-card-content">
+                    <h4>Пользователи</h4>
+                    <p>Просмотр и управление пользователями сайта</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/diary" class="admin-card-new">
+                <div class="admin-card-icon">📘</div>
+
+                <div class="admin-card-content">
+                    <h4>Электронный дневник</h4>
+                    <p>Задания, материалы, ссылки, файлы и оценки учеников</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
+            </a>
+
+            <a href="/admin/announcements" class="admin-card-new">
+                <div class="admin-card-icon">📢</div>
+
+                <div class="admin-card-content">
+                    <h4>Объявления</h4>
+                    <p>Создание мероприятий и информационных объявлений</p>
+                </div>
+
+                <span class="admin-card-arrow">→</span>
             </a>
         </div>
-
-        <div class="col-md-3">
-            <a href="/admin/schedule" class="admin-card">
-                <div class="icon">🗒</div>
-                <div class="title">Расписание</div>
-            </a>
-        </div>
-
-        <div class="col-md-3">
-            <a href="/admin/documents" class="admin-card">
-                <div class="icon">🕮</div>
-                <div class="title">Документы</div>
-            </a>
-        </div>
-
-        <div class="col-md-3">
-            <a href="/admin/users" class="admin-card">
-                <div class="icon">🔒︎</div>
-                <div class="title">Пользователи</div>
-            </a>
-        </div>
-
     </div>
-</div>
+
+</section>
 
 @endsection

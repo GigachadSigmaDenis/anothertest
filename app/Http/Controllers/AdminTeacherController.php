@@ -8,26 +8,33 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminTeacherController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::all();
-        return view('admin.teachers.index', compact('teachers'));
-    }
+        $teachers = Teacher::latest()->get();
 
-    public function create()
-    {
-        return view('admin.teachers.create');
+        $editTeacher = null;
+
+        if ($request->filled('edit')) {
+            $editTeacher = Teacher::find($request->edit);
+        }
+
+        return view('admin.teachers.index', compact('teachers', 'editTeacher'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'subject' => 'required',
-            'subjects' => 'nullable',
+            'full_name' => 'required',
+            'subjects' => 'required',
             'photo' => 'nullable|image'
         ]);
+
+        // Заполняем старые обязательные поля таблицы
+        $nameParts = explode(' ', trim($data['full_name']));
+
+        $data['surname'] = $nameParts[0] ?? $data['full_name'];
+        $data['name'] = $nameParts[1] ?? $data['full_name'];
+        $data['subject'] = $data['subjects'];
 
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('teachers', 'public');
@@ -35,13 +42,7 @@ class AdminTeacherController extends Controller
 
         Teacher::create($data);
 
-        return redirect('/admin/teachers');
-    }
-
-    public function edit($id)
-    {
-        $teacher = Teacher::findOrFail($id);
-        return view('admin.teachers.edit', compact('teacher'));
+        return redirect('/admin/teachers')->with('success', 'Учитель успешно добавлен');
     }
 
     public function update(Request $request, $id)
@@ -49,15 +50,19 @@ class AdminTeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
 
         $data = $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'subject' => 'required',
-            'subjects' => 'nullable',
+            'full_name' => 'required',
+            'subjects' => 'required',
             'photo' => 'nullable|image'
         ]);
 
-        if ($request->hasFile('photo')) {
+        // Обновляем старые обязательные поля таблицы
+        $nameParts = explode(' ', trim($data['full_name']));
 
+        $data['surname'] = $nameParts[0] ?? $data['full_name'];
+        $data['name'] = $nameParts[1] ?? $data['full_name'];
+        $data['subject'] = $data['subjects'];
+
+        if ($request->hasFile('photo')) {
             if ($teacher->photo) {
                 Storage::disk('public')->delete($teacher->photo);
             }
@@ -67,7 +72,7 @@ class AdminTeacherController extends Controller
 
         $teacher->update($data);
 
-        return redirect('/admin/teachers');
+        return redirect('/admin/teachers')->with('success', 'Данные учителя обновлены');
     }
 
     public function destroy($id)
@@ -80,6 +85,6 @@ class AdminTeacherController extends Controller
 
         $teacher->delete();
 
-        return redirect('/admin/teachers');
+        return redirect('/admin/teachers')->with('success', 'Учитель удалён');
     }
 }

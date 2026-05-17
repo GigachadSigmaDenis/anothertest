@@ -2,74 +2,132 @@
 
 @section('content')
 
-<div class="card p-4">
-    <h3 class="text-center mb-4">Структура и органы управления</h3>
+<section class="structure-page">
 
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="list-group">
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Директор</h5>
-                            <p class="mb-0 text-muted">Александров Александр Александрович</p>
-                        </div>
-                        <span class="badge bg-primary">Руководитель</span>
-                    </div>
+    <div class="structure-hero mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">О школе</span>
+                <h3>Структура и органы управления</h3>
+            </div>
+
+            <a href="/about" class="section-link">
+                ← Назад
+            </a>
+        </div>
+
+        <p class="structure-hero-text">
+            Управление школой осуществляется директором, заместителями директора,
+            а также коллегиальными органами управления образовательной организации.
+        </p>
+    </div>
+
+    <div class="structure-level mb-4">
+        <div class="structure-level-title">
+            <span>Руководитель образовательной организации</span>
+        </div>
+
+        <div class="structure-main-card">
+            <div class="structure-avatar">👨‍💼</div>
+
+            <div class="structure-main-content">
+                <span class="structure-tag tag-director">Руководитель</span>
+
+                <h4>Директор</h4>
+
+                <p class="structure-name">
+                    Александров Александр Александрович
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="structure-level mb-4">
+        <div class="structure-level-title">
+            <span>Заместители директора</span>
+        </div>
+
+        <div class="structure-grid">
+            <div class="structure-card">
+                <div class="structure-avatar">📘</div>
+
+                <div>
+                    <span class="structure-tag tag-deputy">Заместитель</span>
+
+                    <h4>Заместитель директора по учебной работе</h4>
+
+                    <p class="structure-name">
+                        Леонова Ольга Владимировна
+                    </p>
                 </div>
+            </div>
 
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Заместитель директора по учебной работе</h5>
-                            <p class="mb-0 text-muted">Леонова Ольга Владимировна</p>
-                        </div>
-                        <span class="badge bg-info">Заместитель</span>
-                    </div>
-                </div>
+            <div class="structure-card">
+                <div class="structure-avatar">🌱</div>
 
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Заместитель директора по воспитательной работе</h5>
-                            <p class="mb-0 text-muted">Синицына Светлана Степановна</p>
-                        </div>
-                        <span class="badge bg-info">Заместитель</span>
-                    </div>
-                </div>
+                <div>
+                    <span class="structure-tag tag-deputy">Заместитель</span>
 
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Педагогический совет</h5>
-                            <p class="mb-0 text-muted">Коллегиальный орган управления</p>
-                        </div>
-                        <span class="badge bg-success">Коллегиальный</span>
-                    </div>
-                </div>
+                    <h4>Заместитель директора по воспитательной работе</h4>
 
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Управляющий совет</h5>
-                            <p class="mb-0 text-muted">Представители родителей, учителей и учащихся</p>
-                        </div>
-                        <span class="badge bg-success">Коллегиальный</span>
-                    </div>
-                </div>
-
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Методические объединения</h5>
-                            <p class="mb-0 text-muted">Учителей-предметников</p>
-                        </div>
-                        <span class="badge bg-secondary">Методические</span>
-                    </div>
+                    <p class="structure-name">
+                        Синицына Светлана Степановна
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="structure-level">
+        <div class="structure-level-title">
+            <span>Коллегиальные органы и объединения</span>
+        </div>
+
+        <div class="structure-grid structure-grid-three">
+            <div class="structure-card">
+                <div class="structure-avatar">👥</div>
+
+                <div>
+                    <span class="structure-tag tag-collegial">Коллегиальный орган</span>
+
+                    <h4>Педагогический совет</h4>
+
+                    <p class="structure-name">
+                        Коллегиальный орган управления
+                    </p>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-avatar">🤝</div>
+
+                <div>
+                    <span class="structure-tag tag-collegial">Коллегиальный орган</span>
+
+                    <h4>Управляющий совет</h4>
+
+                    <p class="structure-name">
+                        Представители родителей, учителей и учащихся
+                    </p>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-avatar">📚</div>
+
+                <div>
+                    <span class="structure-tag tag-method">Методическая работа</span>
+
+                    <h4>Методические объединения</h4>
+
+                    <p class="structure-name">
+                        Объединения учителей-предметников
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
 
 @endsection

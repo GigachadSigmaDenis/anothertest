@@ -1,0 +1,218 @@
+:root {
+    --blue-main: #1557b0;
+    --blue-dark: #0f3f86;
+    --blue-soft: #eef5ff;
+    --blue-light: #dbeafe;
+    --text-main: #162033;
+    --text-muted: #64748b;
+    --border-soft: #dbe3ef;
+    --page-bg: #f3f7fc;
+    --white: #ffffff;
+    --shadow: 0 8px 24px rgba(15, 63, 134, 0.08);
+}
+
+body {
+    background: var(--page-bg);
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text-main);
+}
+
+a {
+    color: var(--blue-main);
+    transition: 0.2s ease;
+}
+
+a:hover {
+    color: var(--blue-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--blue-dark);
+    font-weight: 800;
+}
+
+.container {
+    max-width: 1120px;
+}
+
+main.container {
+    min-height: 55vh;
+}
+
+.card,
+.site-card {
+    border-radius: 20px;
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow);
+    background: var(--white);
+    overflow: hidden;
+}
+
+.page-title,
+.text-center.mb-4 {
+    color: var(--blue-dark);
+    font-weight: 900;
+    margin-bottom: 28px !important;
+}
+
+.btn {
+    border-radius: 10px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border: none;
+}
+
+.btn-lg {
+    padding: 12px 22px;
+    border-radius: 12px;
+}
+
+.btn-primary,
+.btn-success {
+    background: var(--blue-main) !important;
+    border-color: var(--blue-main) !important;
+    color: var(--white) !important;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background: var(--blue-dark) !important;
+    border-color: var(--blue-dark) !important;
+}
+
+.btn-outline-primary,
+.btn-outline-success {
+    color: var(--blue-main) !important;
+    border: 1px solid var(--blue-main) !important;
+    background: transparent !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-success:hover {
+    color: var(--white) !important;
+    background: var(--blue-main) !important;
+}
+
+.btn-secondary {
+    background: var(--blue-soft) !important;
+    color: var(--blue-dark) !important;
+    border: 1px solid var(--blue-light) !important;
+}
+
+.btn-secondary:hover {
+    background: var(--blue-light) !important;
+    color: var(--blue-dark) !important;
+}
+
+.btn-danger {
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.badge {
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.news-category {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.news-category.category-safety {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.news-category.category-career {
+    background: #ffc107;
+    color: #1f2937;
+}
+
+.news-category.category-education {
+    background: var(--blue-main);
+    color: #ffffff;
+}
+
+.alert {
+    border-radius: 14px;
+    border: none;
+}
+
+.alert-info {
+    background: var(--blue-soft);
+    color: var(--blue-dark);
+}
+
+.alert-danger {
+    background: #eef5ff;
+    color: var(--blue-dark);
+    border-left: 4px solid var(--blue-main);
+}
+
+.form-label {
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.form-control,
+.form-select,
+textarea.form-control {
+    border-radius: 12px;
+    border: 1px solid var(--border-soft);
+    padding: 11px 14px;
+    color: var(--text-main);
+    background-color: var(--white);
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    border-color: var(--blue-main);
+    box-shadow: 0 0 0 0.2rem rgba(21, 87, 176, 0.15);
+}
+
+.table {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.table thead {
+    background: var(--blue-main);
+    color: var(--white);
+}
+
+.table thead th {
+    color: var(--white);
+    border: none;
+    padding: 14px;
+}
+
+.table tbody td {
+    padding: 13px 14px;
+    vertical-align: middle;
+    border-color: var(--border-soft);
+}
+
+.pagination .page-link {
+    color: var(--blue-main);
+    border-color: var(--border-soft);
+    border-radius: 10px;
+    margin: 0 3px;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--blue-main);
+    border-color: var(--blue-main);
+}

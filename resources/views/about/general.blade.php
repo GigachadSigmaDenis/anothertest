@@ -2,86 +2,110 @@
 
 @section('content')
 
-<div class="card p-4">
-    <h3 class="text-center mb-4">Основные сведения</h3>
-
-    <div class="row g-3">
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">🗐</span>
-                </div>
-                <h5 class="text-center mb-3">Полное наименование</h5>
-                <p class="text-center mb-0">Муниципальное бюджетное общеобразовательное учреждение «Притобольная средняя общеобразовательная школа»</p>
-            </div>
+<section class="page-section general-section">
+    <div class="section-head">
+        <div>
+            <span class="page-label">О школе</span>
+            <h3>Основные сведения</h3>
         </div>
 
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">🗎</span>
-                </div>
-                <h5 class="text-center mb-3">Сокращенное наименование</h5>
-                <p class="text-center mb-0">МБОУ «Притобольная СОШ»</p>
-            </div>
-        </div>
+        <a href="/about" class="section-link">
+            ← Назад
+        </a>
+    </div>
 
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">🗓</span>
-                </div>
-                <h5 class="text-center mb-3">Дата создания</h5>
-                <p class="text-center mb-0">1985 год</p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">🗣</span>
-                </div>
-                <h5 class="text-center mb-3">Учредитель</h5>
-                <p class="text-center mb-0">Администрация Притобольного района</p>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="card bg-light p-3">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">⚲</span>
-                </div>
-                <h5 class="text-center mb-3">Место нахождения</h5>
-                <p class="text-center mb-0">
-                    Курганская область, Притобольный район,<br>
-                    с. Боровлянка, ул. Центральная, 6
+    <div class="general-grid">
+        <div class="general-card general-card-wide">
+            <div class="general-icon">📘</div>
+            <div>
+                <h4>Полное наименование</h4>
+                <p>
+                    Муниципальное бюджетное общеобразовательное учреждение
+                    «Притобольная средняя общеобразовательная школа»
                 </p>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">⏱</span>
-                </div>
-                <h5 class="text-center mb-3">Режим работы</h5>
-                <p class="text-center mb-0">Понедельник - пятница<br>08:00 - 16:00</p>
+        <div class="general-card">
+            <div class="general-icon">📄</div>
+            <div>
+                <h4>Сокращённое наименование</h4>
+                <p>МБОУ «Притобольная СОШ»</p>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card bg-light p-3 h-100">
-                <div class="text-center mb-2">
-                    <span style="font-size: 32px;">☏</span>
-                </div>
-                <h5 class="text-center mb-3">Контакты</h5>
-                <p class="text-center mb-0">
+        <div class="general-card">
+            <div class="general-icon">📅</div>
+            <div>
+                <h4>Дата создания</h4>
+                <p>1985 год</p>
+            </div>
+        </div>
+
+        <div class="general-card">
+            <div class="general-icon">🏛️</div>
+            <div>
+                <h4>Учредитель</h4>
+                <p>Администрация Притобольного района</p>
+            </div>
+        </div>
+
+        <div class="general-card">
+            <div class="general-icon">⏰</div>
+            <div>
+                <h4>Режим работы</h4>
+                <p>
+                    Понедельник — пятница<br>
+                    08:00 — 16:00
+                </p>
+            </div>
+        </div>
+
+        <div class="general-card">
+            <div class="general-icon">📞</div>
+            <div>
+                <h4>Контакты</h4>
+                <p>
                     Телефон: 8 (35239) 9-37-05<br>
                     Email: pritschool@mail.ru
                 </p>
             </div>
         </div>
+
+        <div class="general-card">
+            <div class="general-icon">📍</div>
+            <div>
+                <h4>Место нахождения</h4>
+                <p>
+                    Курганская область, Притобольный район,<br>
+                    с. Боровлянка, ул. Центральная, 6
+                </p>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="map-card mt-4">
+        <div class="map-header">
+            <div>
+                <span class="page-label">Карта</span>
+                <h4>Как нас найти</h4>
+            </div>
+
+            <a href="https://www.openstreetmap.org/?mlat=51.407666&mlon=83.763126#map=18/51.407666/83.763126"
+               target="_blank"
+               class="btn btn-primary btn-sm">
+                Открыть карту
+            </a>
+        </div>
+
+        <div class="map-frame-wrap">
+            <iframe
+                class="map-frame"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=83.758126%2C51.404666%2C83.768126%2C51.410666&layer=mapnik&marker=51.407666%2C83.763126"
+                loading="lazy">
+            </iframe>
+        </div>
+    </div>
+</section>
 
 @endsection

@@ -14,7 +14,9 @@ class SiteController extends Controller
     public function home()
     {
         $news = News::latest()->first();
-        return view('home', compact('news'));
+        $teachers = Teacher::limit(3)->get();
+
+        return view('home', compact('news', 'teachers'));
     }
 
     public function news()
@@ -31,21 +33,16 @@ class SiteController extends Controller
 
     public function schedule(Request $request)
     {
-        $class = $request->class ?? '5';
+        $class = $request->get('class', '5');
 
-        $weekStart = Carbon::now()->startOfWeek(Carbon::MONDAY)->toDateString();
+        $weekStart = $request->filled('week_start')
+            ? Carbon::parse($request->week_start)->startOfWeek(Carbon::MONDAY)
+            : now()->startOfWeek(Carbon::MONDAY);
+
+        $weekStartDate = $weekStart->toDateString();
 
         $days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'];
         $lessons = range(1, 7);
-
-        $classes = Schedule::where('week_start_date', $weekStart)
-            ->select('class')
-            ->distinct()
-            ->pluck('class');
-
-        if (!$classes->contains($class)) {
-            $class = $classes->first();
-        }
 
         $data = [];
 
@@ -54,12 +51,18 @@ class SiteController extends Controller
                 $data[$lesson][$day] = Schedule::where('class', $class)
                     ->where('day', $day)
                     ->where('lesson_number', $lesson)
-                    ->where('week_start_date', $weekStart)
-                    ->value('subject');
+                    ->whereDate('week_start_date', $weekStartDate)
+                    ->value('subject') ?? '-';
             }
         }
 
-        return view('schedule', compact('data', 'class', 'days', 'lessons', 'weekStart', 'classes'));
+        return view('schedule', compact(
+            'data',
+            'class',
+            'days',
+            'lessons',
+            'weekStart'
+        ));
     }
 
     public function about()

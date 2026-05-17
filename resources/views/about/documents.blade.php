@@ -2,8 +2,25 @@
 
 @section('content')
 
-<div class="card p-4">
-    <h3 class="text-center mb-4">Документы</h3>
+<section class="documents-page">
+
+    <div class="documents-hero mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">О школе</span>
+                <h3>Документы</h3>
+            </div>
+
+            <a href="/about" class="section-link">
+                ← Назад
+            </a>
+        </div>
+
+        <p class="documents-hero-text">
+            В разделе размещены официальные документы образовательной организации:
+            устав, локальные акты, положения, лицензии и другие материалы.
+        </p>
+    </div>
 
     @php
         $documents = App\Models\Document::where('is_published', true)
@@ -12,69 +29,108 @@
                     ->get();
     @endphp
 
-    @if($documents->count() > 0)
-        <div class="row g-3">
-            @foreach($documents as $document)
-                <div class="col-md-6 col-lg-4">
-                    <a href="{{ $document->link }}" target="_blank" class="text-decoration-none d-block document-link">
-                        <div class="card p-3 text-center h-100 document-card">
-                            <div class="document-content">
-                                <div class="document-icon">
-                                    PDF
-                                </div>
-                                <h6 class="mb-0 mt-3">{{ $document->title }}</h6>
-                                <small class="text-muted mt-2 d-block">Открыть документ →</small>
-                            </div>
+    <div class="documents-section">
+        @if($documents->count() > 0)
+
+            <div class="documents-search-wrap mb-4">
+                <div class="documents-search-box">
+                    <span class="documents-search-icon">🔎</span>
+
+                    <input type="text"
+                           id="documentsSearch"
+                           class="documents-search-input"
+                           placeholder="Поиск по документам...">
+                </div>
+
+                <div class="documents-count">
+                    Найдено: <span id="documentsCount">{{ $documents->count() }}</span>
+                </div>
+            </div>
+
+            <div class="documents-grid" id="documentsGrid">
+                @foreach($documents as $document)
+                    <a href="{{ $document->link }}"
+                       target="_blank"
+                       class="document-card"
+                       data-title="{{ mb_strtolower($document->title) }}">
+
+                        <div class="document-icon">
+                            PDF
+                        </div>
+
+                        <div class="document-info">
+                            <h4>{{ $document->title }}</h4>
+
+                            <p>
+                                Открыть документ
+                            </p>
+                        </div>
+
+                        <div class="document-arrow">
+                            →
                         </div>
                     </a>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <div class="alert alert-info text-center">
-            Документов пока нет
-        </div>
-    @endif
-</div>
+                @endforeach
+            </div>
 
-<style>
-    .document-link {
-        display: block;
-        height: 100%;
-    }
-    
-    .document-card {
-        border: 1px solid #e0e0e0;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        height: 100%;
-        background: white;
-    }
-    
-    .document-link:hover .document-card {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        border-color: #4e73df;
-        background: #f8f9ff;
-    }
-    
-    .document-icon {
-        width: 60px;
-        height: 60px;
-        background: #dc3545;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: bold;
-    }
-    
-    .document-content {
-        width: 100%;
-    }
-</style>
+            <div class="documents-empty documents-search-empty" id="documentsSearchEmpty" style="display: none;">
+                <div class="documents-empty-icon">🔎</div>
+
+                <h4>Документы не найдены</h4>
+
+                <p>
+                    Попробуйте изменить поисковый запрос.
+                </p>
+            </div>
+
+        @else
+            <div class="documents-empty">
+                <div class="documents-empty-icon">📄</div>
+
+                <h4>Документов пока нет</h4>
+
+                <p>
+                    В этом разделе будут опубликованы официальные документы школы.
+                </p>
+            </div>
+        @endif
+    </div>
+
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('documentsSearch');
+        const cards = document.querySelectorAll('.document-card');
+        const countElement = document.getElementById('documentsCount');
+        const emptyBlock = document.getElementById('documentsSearchEmpty');
+
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', function () {
+            const query = this.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(function (card) {
+                const title = card.dataset.title || '';
+
+                if (title.includes(query)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            countElement.textContent = visibleCount;
+
+            if (visibleCount === 0) {
+                emptyBlock.style.display = 'block';
+            } else {
+                emptyBlock.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 @endsection

@@ -4,159 +4,255 @@
 
 @php
     $selectedDay = request('day');
+    $weekStartFormatted = \Carbon\Carbon::parse($weekStart)->format('Y-m-d');
+    $weekStartView = \Carbon\Carbon::parse($weekStart)->format('d.m.Y');
+    $weekEndView = \Carbon\Carbon::parse($weekStart)->copy()->addDays(4)->format('d.m.Y');
 @endphp
 
-<div class="card p-4">
-    <h2 class="text-center mb-4">Расписание уроков</h2>
+<section class="schedule-page">
 
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <label class="form-label fw-bold">Класс</label>
-            <select id="classSelect" class="form-select" onchange="window.location.href=this.value">
-                <option value="">Выберите класс</option>
-                @for($i=1; $i<=9; $i++)
-                    <option value="/schedule?class={{ $i }}" {{ $class == $i ? 'selected' : '' }}>
-                        {{ $i }} класс
-                    </option>
-                @endfor
-            </select>
+    <div class="schedule-hero mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">Расписание</span>
+                <h3>Расписание уроков</h3>
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <label class="form-label fw-bold">День недели</label>
-            <select id="daySelect" class="form-select" onchange="window.location.href=this.value">
-                <option value="/schedule?class={{ $class }}">Все дни</option>
-                @foreach($days as $day)
-                    <option value="/schedule?class={{ $class }}&day={{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>
-                        {{ $day }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+        <p class="schedule-hero-text">
+            Выберите класс, учебную неделю и при необходимости отдельный день недели
+            для просмотра расписания занятий.
+        </p>
+    </div>
 
-        <div class="col-md-4">
-            <label class="form-label fw-bold">Неделя</label>
-            <input type="date" id="weekStart" class="form-control" value="{{ \Carbon\Carbon::parse($weekStart)->format('Y-m-d') }}">
+    <div class="schedule-filter-card mb-4">
+        <div class="row g-3">
+            <div class="col-lg-4">
+                <label class="form-label">Класс</label>
+
+                <select id="classSelect" class="form-select">
+                    <option value="">Выберите класс</option>
+
+                    @for($i = 1; $i <= 9; $i++)
+                        <option value="{{ $i }}" {{ $class == $i ? 'selected' : '' }}>
+                            {{ $i }} класс
+                        </option>
+                    @endfor
+                </select>
+            </div>
+
+            <div class="col-lg-4">
+                <label class="form-label">День недели</label>
+
+                <select id="daySelect" class="form-select">
+                    <option value="">Все дни</option>
+
+                    @foreach($days as $day)
+                        <option value="{{ $day }}" {{ request('day') == $day ? 'selected' : '' }}>
+                            {{ $day }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-lg-4">
+                <label class="form-label">Учебная неделя</label>
+
+                <input type="date"
+                    id="weekStart"
+                    class="form-control"
+                    value="{{ $weekStartFormatted }}">
+
+                <small class="schedule-help">
+                    Выберите понедельник нужной недели. Если выбрать другой день, сайт автоматически перенесёт дату на понедельник этой недели.
+                </small>
+            </div>
         </div>
     </div>
 
-    <div class="alert alert-info text-center mb-4">
-        <strong>Неделя:</strong> {{ \Carbon\Carbon::parse($weekStart)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($weekStart)->copy()->addDays(4)->format('d.m.Y') }}
-        <br>
-        <strong>Класс:</strong> {{ $class }} класс
-        @if(request('day'))
-            <br><strong>День:</strong> {{ request('day') }}
-        @endif
+    <div class="schedule-summary mb-4">
+        <div class="schedule-summary-item">
+            <span>Неделя</span>
+            <strong>{{ $weekStartView }} — {{ $weekEndView }}</strong>
+        </div>
+
+        <div class="schedule-summary-item">
+            <span>Класс</span>
+            <strong>
+                @if($class)
+                    {{ $class }} класс
+                @else
+                    Не выбран
+                @endif
+            </strong>
+        </div>
+
+        <div class="schedule-summary-item">
+            <span>День</span>
+            <strong>
+                @if(request('day'))
+                    {{ request('day') }}
+                @else
+                    Все дни
+                @endif
+            </strong>
+        </div>
     </div>
 
     @if($class)
-        <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle schedule-table">
-                <thead class="table-primary">
-                    <tr>
-                        <th width="80">Урок</th>
-                        @foreach($days as $day)
-                            @if(!$selectedDay || $selectedDay == $day)
-                                <th>{{ $day }}</th>
-                            @endif
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $lessonNumbers = [1,2,3,4,5,6,7];
-                    @endphp
-                    @foreach($lessonNumbers as $lesson)
+        <div class="schedule-table-card">
+            <div class="table-responsive">
+                <table class="table schedule-table align-middle">
+                    <thead>
                         <tr>
-                            <td class="fw-bold bg-light">{{ $lesson }}</td>
+                            <th class="lesson-number-col">Урок</th>
+
                             @foreach($days as $day)
                                 @if(!$selectedDay || $selectedDay == $day)
-                                    <td class="subject-cell">
-                                        @php
-                                            $subject = $data[$lesson][$day] ?? '-';
-                                        @endphp
-                                        @if($subject != '-')
-                                            <span class="subject-badge">{{ $subject }}</span>
-                                        @else
-                                            <span class="text-muted">—</span>
-                                        @endif
-                                    </td>
+                                    <th>{{ $day }}</th>
                                 @endif
                             @endforeach
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
 
-        @if(empty($data))
-            <div class="alert alert-warning text-center mt-3">
-                Расписание для этого класса еще не добавлено
+                    <tbody>
+                        @php
+                            $lessonNumbers = [1, 2, 3, 4, 5, 6, 7];
+                        @endphp
+
+                        @foreach($lessonNumbers as $lesson)
+                            <tr>
+                                <td class="lesson-number">
+                                    {{ $lesson }}
+                                </td>
+
+                                @foreach($days as $day)
+                                    @if(!$selectedDay || $selectedDay == $day)
+                                        <td class="subject-cell">
+                                            @php
+                                                $subject = $data[$lesson][$day] ?? '-';
+                                            @endphp
+
+                                            @if($subject != '-')
+                                                <span class="subject-badge">
+                                                    {{ $subject }}
+                                                </span>
+                                            @else
+                                                <span class="subject-empty">
+                                                    —
+                                                </span>
+                                            @endif
+                                        </td>
+                                    @endif
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        @endif
+
+            @if(empty($data))
+                <div class="schedule-empty mt-4">
+                    <div class="schedule-empty-icon">📅</div>
+                    <h4>Расписание пока не добавлено</h4>
+                    <p>Для выбранного класса расписание ещё не опубликовано.</p>
+                </div>
+            @endif
+        </div>
     @else
-        <div class="alert alert-info text-center">
-            Выберите класс для просмотра расписания
+        <div class="schedule-empty">
+            <div class="schedule-empty-icon">📚</div>
+            <h4>Выберите класс</h4>
+            <p>После выбора класса появится расписание уроков.</p>
         </div>
     @endif
-</div>
 
-<style>
-    .schedule-table {
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .schedule-table thead th {
-        background: linear-gradient(135deg, #4e73df, #224abe);
-        color: white;
-        font-weight: 600;
-        padding: 12px;
-        border: none;
-    }
-    
-    .schedule-table tbody tr:hover {
-        background: #f8f9ff;
-    }
-    
-    .schedule-table td {
-        vertical-align: middle;
-        padding: 12px;
-        border-color: #e0e0e0;
-    }
-    
-    .subject-badge {
-        display: inline-block;
-        background: #e8f0fe;
-        color: #224abe;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 500;
-    }
-    
-    select.form-select {
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        padding: 10px;
-    }
-    
-    select.form-select:focus {
-        border-color: #4e73df;
-        box-shadow: 0 0 0 0.2rem rgba(78,115,223,0.25);
-    }
-</style>
+</section>
 
 <script>
-    document.getElementById('weekStart')?.addEventListener('change', function() {
-        const classValue = '{{ $class }}';
-        const dayValue = '{{ request('day') }}';
-        let url = '/schedule?class=' + classValue + '&week_start=' + this.value;
-        if (dayValue) {
-            url += '&day=' + dayValue;
+    document.addEventListener('DOMContentLoaded', function () {
+        const classSelect = document.getElementById('classSelect');
+        const daySelect = document.getElementById('daySelect');
+        const weekStartInput = document.getElementById('weekStart');
+
+        function getMondayFromDate(dateValue) {
+            const date = new Date(dateValue + 'T00:00:00');
+
+            if (Number.isNaN(date.getTime())) {
+                return null;
+            }
+
+            const day = date.getDay();
+            const diff = day === 0 ? -6 : 1 - day;
+
+            date.setDate(date.getDate() + diff);
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const dayNumber = String(date.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${dayNumber}`;
         }
-        window.location.href = url;
+
+        function buildScheduleUrl() {
+            const classValue = classSelect.value;
+            const dayValue = daySelect.value;
+            const weekValue = weekStartInput.value;
+
+            if (!classValue) {
+                window.location.href = '/schedule';
+                return;
+            }
+
+            let url = '/schedule?class=' + encodeURIComponent(classValue);
+
+            if (weekValue) {
+                const monday = getMondayFromDate(weekValue);
+
+                if (monday) {
+                    url += '&week_start=' + encodeURIComponent(monday);
+                }
+            }
+
+            if (dayValue) {
+                url += '&day=' + encodeURIComponent(dayValue);
+            }
+
+            window.location.href = url;
+        }
+
+        classSelect?.addEventListener('change', function () {
+            if (!this.value) {
+                window.location.href = '/schedule';
+                return;
+            }
+
+            buildScheduleUrl();
+        });
+
+        daySelect?.addEventListener('change', function () {
+            buildScheduleUrl();
+        });
+
+        weekStartInput?.addEventListener('change', function () {
+            const monday = getMondayFromDate(this.value);
+
+            if (!monday) return;
+
+            if (this.value !== monday) {
+                this.value = monday;
+            }
+
+            buildScheduleUrl();
+        });
+
+        weekStartInput?.addEventListener('blur', function () {
+            const monday = getMondayFromDate(this.value);
+
+            if (monday) {
+                this.value = monday;
+            }
+        });
     });
 </script>
 

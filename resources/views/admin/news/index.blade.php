@@ -2,179 +2,344 @@
 
 @section('content')
 
-<div class="card p-4">
-    <h2 class="text-center mb-4">Управление новостями</h2>
+<section class="admin-news-page">
+
+    <div class="admin-news-hero mb-4">
+        <div class="section-head">
+            <div>
+                <span class="page-label">Админ-панель</span>
+                <h3>Управление новостями</h3>
+            </div>
+
+            <a href="/admin/dashboard" class="section-link">
+                ← Назад
+            </a>
+        </div>
+
+        <p class="admin-news-hero-text">
+            Здесь можно создать новость, изменить уже опубликованную запись
+            или удалить её с сайта.
+        </p>
+    </div>
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
 
-    <div class="text-end mb-3">
-        <a href="/admin/news/create" class="btn btn-success-admin">+ Добавить новость</a>
-    </div>
+    @if($errors->any())
+        <div class="alert alert-danger mb-4">
+            <strong>Проверьте форму:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <div class="row">
-        @forelse($news as $item)
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card news-admin-card h-100">
-                @if($item->image)
-                    <img src="{{ asset('storage/' . $item->image) }}" 
-                         class="card-img-top news-image"
-                         alt="{{ $item->title }}">
-                @else
-                    <div class="card-img-top news-image-placeholder">
-                        <span>Нет изображения</span>
+    <div class="admin-news-editor mb-4" id="editor">
+        <div class="admin-news-editor-head">
+            <div>
+                <span class="page-label">
+                    {{ $editNews ? 'Редактирование' : 'Создание' }}
+                </span>
+
+                <h4>
+                    {{ $editNews ? 'Редактировать новость' : 'Добавить новость' }}
+                </h4>
+            </div>
+
+            @if($editNews)
+                <a href="/admin/news" class="btn btn-secondary btn-sm">
+                    + Новая новость
+                </a>
+            @endif
+        </div>
+
+        <form method="POST"
+              action="{{ $editNews ? '/admin/news/update/' . $editNews->id : '/admin/news/store' }}"
+              enctype="multipart/form-data">
+            @csrf
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="mb-3">
+                        <label class="form-label">Заголовок</label>
+                        <input type="text"
+                               name="title"
+                               class="form-control"
+                               placeholder="Введите заголовок"
+                               value="{{ old('title', $editNews->title ?? '') }}"
+                               required>
                     </div>
-                @endif
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ Str::limit($item->title, 60) }}</h5>
-                    
-                    <div class="mb-2">
-                        <span class="badge 
-                            @if($item->category == 'безопасность') bg-danger
-                            @elseif($item->category == 'профориентация') bg-warning
-                            @else bg-success
-                            @endif">
-                            {{ $item->category }}
-                        </span>
+
+                    <div class="mb-3">
+                        <label class="form-label">Текст новости</label>
+                        <textarea name="content"
+                                  class="form-control"
+                                  rows="12"
+                                  placeholder="Введите текст новости..."
+                                  required>{{ old('content', $editNews->content ?? '') }}</textarea>
                     </div>
-                    
-                    <p class="card-text text-muted small mb-2">
-                        <strong>Дата:</strong> {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y H:i') }}
-                    </p>
-                    
-                    <p class="card-text flex-grow-1">
-                        {{ Str::limit(strip_tags($item->content), 100) }}
-                    </p>
-                    
-                    <div class="btn-group mt-3">
-                        <a href="/admin/news/edit/{{ $item->id }}" class="btn btn-warning-admin btn-sm">Редактировать</a>
-                        <form method="POST" action="/admin/news/delete/{{ $item->id }}" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger-admin btn-sm" onclick="return confirm('Удалить новость?')">Удалить</button>
-                        </form>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="admin-news-side">
+                        <div class="mb-3">
+                            <label class="form-label">Категория</label>
+
+                            @php
+                                $currentCategory = old('category', $editNews->category ?? 'образование');
+                            @endphp
+
+                            <select name="category" class="form-select" required>
+                                <option value="безопасность" {{ $currentCategory == 'безопасность' ? 'selected' : '' }}>
+                                    Безопасность
+                                </option>
+                                <option value="профориентация" {{ $currentCategory == 'профориентация' ? 'selected' : '' }}>
+                                    Профориентация
+                                </option>
+                                <option value="образование" {{ $currentCategory == 'образование' ? 'selected' : '' }}>
+                                    Образование
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Дата и время публикации</label>
+                            <input type="datetime-local"
+                                   name="published_at"
+                                   class="form-control"
+                                   value="{{ old('published_at', $editNews && $editNews->published_at ? \Carbon\Carbon::parse($editNews->published_at)->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i')) }}">
+                        </div>
+
+                        @if($editNews && $editNews->image)
+                            <div class="mb-3">
+                                <label class="form-label">Текущее изображение</label>
+                                <img src="{{ asset('storage/' . $editNews->image) }}"
+                                     class="admin-news-current-image"
+                                     alt="{{ $editNews->title }}">
+                            </div>
+                        @endif
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                {{ $editNews ? 'Новое изображение' : 'Изображение' }}
+                            </label>
+
+                            <input type="file"
+                                   name="image"
+                                   id="imageInput"
+                                   class="form-control"
+                                   accept="image/*">
+
+                            <small class="text-muted">
+                                Рекомендуемый размер: 800×600px
+                            </small>
+                        </div>
+
+                        <div id="previewBox" class="admin-news-preview-box" style="display: none;">
+                            <img id="preview" class="admin-news-preview" alt="Предпросмотр">
+
+                            <button type="button" id="cancelBtn" class="btn btn-secondary btn-sm mt-2">
+                                Отменить изображение
+                            </button>
+                        </div>
+
+                        <div class="admin-news-actions">
+                            <button type="submit" class="btn btn-primary">
+                                {{ $editNews ? 'Обновить новость' : 'Сохранить новость' }}
+                            </button>
+
+                            @if($editNews)
+                                <a href="/admin/news" class="btn btn-secondary">
+                                    Отмена
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @empty
-        <div class="col-12">
-            <div class="alert alert-info text-center">
-                Новостей пока нет
-            </div>
-        </div>
-        @endforelse
+        </form>
     </div>
 
-    @if(method_exists($news, 'links'))
-        <div class="d-flex justify-content-center mt-3">
-            {{ $news->links() }}
+    <div class="admin-news-list">
+        <div class="section-head">
+            <div>
+                <span class="page-label">Список</span>
+                <h3>Опубликованные новости</h3>
+            </div>
         </div>
-    @endif
+
+        @if($news->count() > 0)
+            <div class="admin-news-grid">
+                @foreach($news as $item)
+                    <article class="admin-news-card">
+                        @if($item->image)
+                            <img src="{{ asset('storage/' . $item->image) }}"
+                                 class="admin-news-card-image"
+                                 alt="{{ $item->title }}">
+                        @else
+                            <div class="admin-news-card-placeholder">
+                                Нет изображения
+                            </div>
+                        @endif
+
+                        <div class="admin-news-card-body">
+                            <span class="news-category
+                                @if($item->category == 'безопасность') category-safety
+                                @elseif($item->category == 'профориентация') category-career
+                                @else category-education
+                                @endif">
+                                {{ $item->category }}
+                            </span>
+
+                            <h4>
+                                {{ \Illuminate\Support\Str::limit($item->title, 70) }}
+                            </h4>
+
+                            <p class="admin-news-date">
+                                {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y H:i') }}
+                            </p>
+
+                            <p class="admin-news-text">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($item->content), 110) }}
+                            </p>
+
+                            <div class="admin-news-card-actions">
+                                <a href="/admin/news?edit={{ $item->id }}#editor"
+                                   class="btn btn-secondary btn-sm">
+                                    Редактировать
+                                </a>
+
+                                <form method="POST"
+                                    action="/admin/news/delete/{{ $item->id }}"
+                                    onsubmit="return confirm('Удалить новость?')">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="openDeleteNewsModal(
+                                                '{{ $item->id }}',
+                                                '{{ e($item->title) }}'
+                                            )">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            <div class="admin-news-empty">
+                <div class="admin-news-empty-icon">📰</div>
+                <h4>Новостей пока нет</h4>
+                <p>Добавьте первую новость через форму выше.</p>
+            </div>
+        @endif
+    </div>
+
+</section>
+
+<div id="deleteNewsModal" class="admin-delete-modal" style="display: none;">
+    <div class="admin-delete-modal-box">
+        <button type="button" class="admin-delete-modal-close" onclick="closeDeleteNewsModal()">
+            &times;
+        </button>
+
+        <div class="admin-delete-modal-icon">
+            🗑
+        </div>
+
+        <h3>Удалить новость?</h3>
+
+        <p>
+            Вы действительно хотите удалить новость:
+            <br>
+            <strong id="deleteNewsTitle"></strong>
+        </p>
+
+        <div class="admin-delete-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeDeleteNewsModal()">
+                Отмена
+            </button>
+
+            <form method="POST" id="deleteNewsForm">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit" class="btn btn-danger">
+                    Удалить
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 
-<style>
-    .btn-success-admin {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        transition: all 0.3s ease;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        const previewBox = document.getElementById('previewBox');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        if (input) {
+            input.addEventListener('change', function () {
+                const file = this.files[0];
+
+                if (file) {
+                    preview.src = URL.createObjectURL(file);
+                    previewBox.style.display = 'block';
+                }
+            });
+        }
+
+        cancelBtn?.addEventListener('click', function () {
+            input.value = '';
+            preview.src = '';
+            previewBox.style.display = 'none';
+        });
+
+        const deleteModal = document.getElementById('deleteNewsModal');
+
+        deleteModal?.addEventListener('click', function (event) {
+            if (event.target === deleteModal) {
+                closeDeleteNewsModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && deleteModal && deleteModal.style.display === 'flex') {
+                closeDeleteNewsModal();
+            }
+        });
+    });
+
+    function openDeleteNewsModal(id, title) {
+        const modal = document.getElementById('deleteNewsModal');
+        const form = document.getElementById('deleteNewsForm');
+        const titleElement = document.getElementById('deleteNewsTitle');
+
+        form.action = '/admin/news/delete/' + id;
+        titleElement.textContent = title;
+
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
     }
-    
-    .btn-success-admin:hover {
-        background: #218838;
-        transform: translateY(-2px);
-        color: white;
+
+    function closeDeleteNewsModal() {
+        const modal = document.getElementById('deleteNewsModal');
+
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
     }
-    
-    .btn-warning-admin {
-        background: #ffc107;
-        color: #212529;
-        border: none;
-        padding: 5px 12px;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-warning-admin:hover {
-        background: #e0a800;
-        color: #212529;
-    }
-    
-    .btn-danger-admin {
-        background: #dc3545;
-        color: white;
-        border: none;
-        padding: 5px 12px;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-danger-admin:hover {
-        background: #c82333;
-        color: white;
-    }
-    
-    .news-admin-card {
-        border: 1px solid #e0e0e0;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        overflow: hidden;
-        border-radius: 12px;
-    }
-    
-    .news-admin-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        border-color: #4e73df;
-    }
-    
-    .news-image {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-    }
-    
-    .news-image-placeholder {
-        width: 100%;
-        height: 180px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 14px;
-    }
-    
-    .badge {
-        font-size: 11px;
-        padding: 4px 10px;
-        border-radius: 20px;
-    }
-    
-    .card-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 10px;
-        color: #2c3e50;
-    }
-    
-    .btn-group {
-        display: flex;
-        gap: 8px;
-    }
-    
-    .btn-group .btn {
-        flex: 1;
-    }
-</style>
+</script>
 
 @endsection

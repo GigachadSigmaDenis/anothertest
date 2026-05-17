@@ -12,6 +12,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\StudentDiaryController;
+use App\Http\Controllers\AdminDiaryController;
+use App\Http\Controllers\ZamDirController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AdminAnnouncementController;
 
 // ---------------------
 // PUBLIC SITE ROUTES
@@ -22,6 +27,12 @@ Route::get('/news/{id}', [SiteController::class, 'newsShow']);
 Route::get('/teachers', [SiteController::class, 'teachers']);
 Route::get('/schedule', [SiteController::class, 'schedule']);
 Route::get('/contacts', [SiteController::class, 'contacts']);
+Route::get('/announcements', [AnnouncementController::class, 'index']);
+Route::get('/announcements/{id}', [AnnouncementController::class, 'show']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/announcements/read/{id}', [AnnouncementController::class, 'markRead']);
+});
 
 Route::prefix('about')->group(function () {
     Route::get('/', [SiteController::class, 'about']);
@@ -57,9 +68,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // NEWS
     Route::prefix('news')->group(function () {
         Route::get('/', [AdminNewsController::class, 'index']);
-        Route::get('/create', [AdminNewsController::class, 'create']);
         Route::post('/store', [AdminNewsController::class, 'store']);
-        Route::get('/edit/{id}', [AdminNewsController::class, 'edit']);
         Route::post('/update/{id}', [AdminNewsController::class, 'update']);
         Route::delete('/delete/{id}', [AdminNewsController::class, 'destroy']);
     });
@@ -67,29 +76,22 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // TEACHERS
     Route::prefix('teachers')->group(function () {
         Route::get('/', [AdminTeacherController::class, 'index']);
-        Route::get('/create', [AdminTeacherController::class, 'create']);
         Route::post('/store', [AdminTeacherController::class, 'store']);
-        Route::get('/edit/{id}', [AdminTeacherController::class, 'edit']);
         Route::post('/update/{id}', [AdminTeacherController::class, 'update']);
         Route::delete('/delete/{id}', [AdminTeacherController::class, 'destroy']);
     });
 
-    // SCHEDULE (ADMIN FULL ACCESS)
+    // SCHEDULE
     Route::prefix('schedule')->group(function () {
-        Route::get('/', [AdminScheduleController::class, 'index']);
-        Route::get('/create', [AdminScheduleController::class, 'create']);
-        Route::post('/store', [AdminScheduleController::class, 'store']);
-        Route::get('/edit', [AdminScheduleController::class, 'edit']);
-        Route::post('/update', [AdminScheduleController::class, 'update']);
-        Route::post('/delete-day', [AdminScheduleController::class, 'destroyDay']);
+        Route::get('/', [AdminScheduleController::class, 'index'])->name('admin.schedule.index');
+        Route::post('/store', [AdminScheduleController::class, 'store'])->name('admin.schedule.store');
+        Route::post('/delete-day', [AdminScheduleController::class, 'destroyDay'])->name('admin.schedule.delete-day');
     });
 
     // DOCUMENTS
     Route::prefix('documents')->group(function () {
         Route::get('/', [AdminDocumentController::class, 'index']);
-        Route::get('/create', [AdminDocumentController::class, 'create']);
         Route::post('/store', [AdminDocumentController::class, 'store']);
-        Route::get('/edit/{id}', [AdminDocumentController::class, 'edit']);
         Route::post('/update/{id}', [AdminDocumentController::class, 'update']);
         Route::delete('/delete/{id}', [AdminDocumentController::class, 'destroy']);
         Route::post('/update-order', [AdminDocumentController::class, 'updateOrder']);
@@ -102,23 +104,62 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::post('/update-role', [AdminUserController::class, 'updateRole']);
         Route::delete('/delete/{id}', [AdminUserController::class, 'destroy']);
     });
+
+    // DIARY (ADMIN)
+    Route::prefix('diary')->group(function () {
+        Route::get('/', [AdminDiaryController::class, 'index']);
+        Route::post('/store', [AdminDiaryController::class, 'store']);
+        Route::delete('/delete/{id}', [AdminDiaryController::class, 'destroy']);
+    });
+
+    // Announcements (admin)
+    Route::prefix('announcements')->group(function () {
+    Route::get('/', [AdminAnnouncementController::class, 'index']);
+    Route::post('/store', [AdminAnnouncementController::class, 'store']);
+    Route::post('/update/{id}', [AdminAnnouncementController::class, 'update']);
+    Route::delete('/delete/{id}', [AdminAnnouncementController::class, 'destroy']);
+});
 });
 
 // ---------------------
 // TEACHER ROUTES
 // ---------------------
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
+    Route::prefix('diary')->group(function () {
+        Route::get('/', [TeacherController::class, 'diary']);
+        Route::post('/store', [TeacherController::class, 'storeDiary']);
+        Route::delete('/delete/{id}', [TeacherController::class, 'deleteDiary']);
+    });
 
-    Route::get('/classes', [TeacherController::class, 'index']);
-    Route::post('/classes/update', [TeacherController::class, 'update']);
+    Route::get('/grades', [TeacherController::class, 'grades']);
+});
 
-    // SCHEDULE (TEACHER LIMITED)
+// ---------------------
+// ZAM DIRECTOR ROUTES
+// ---------------------
+Route::middleware(['auth', 'zam_dir'])->prefix('zam')->group(function () {
+    Route::get('/classes', [ZamDirController::class, 'classes']);
+    Route::post('/classes/update', [ZamDirController::class, 'updateClass']);
+
+    Route::prefix('diary')->group(function () {
+        Route::get('/', [ZamDirController::class, 'diary']);
+        Route::post('/store', [ZamDirController::class, 'storeDiary']);
+        Route::delete('/delete/{id}', [ZamDirController::class, 'deleteDiary']);
+    });
+
+    Route::get('/grades', [ZamDirController::class, 'grades']);
+
     Route::prefix('schedule')->group(function () {
         Route::get('/', [TeacherScheduleController::class, 'index']);
-        Route::get('/create', [TeacherScheduleController::class, 'create']);
         Route::post('/store', [TeacherScheduleController::class, 'store']);
-        Route::get('/edit', [TeacherScheduleController::class, 'edit']);
-        Route::post('/update', [TeacherScheduleController::class, 'update']);
+        Route::post('/delete-day', [TeacherScheduleController::class, 'destroyDay']);
+    });
+
+    Route::prefix('announcements')->group(function () {
+        Route::get('/', [ZamDirController::class, 'announcements']);
+        Route::post('/store', [ZamDirController::class, 'storeAnnouncement']);
+        Route::post('/update/{id}', [ZamDirController::class, 'updateAnnouncement']);
+        Route::delete('/delete/{id}', [ZamDirController::class, 'deleteAnnouncement']);
     });
 });
 
@@ -129,3 +170,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/diary', [StudentDiaryController::class, 'index']);
+});

@@ -1,21 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminNewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $news = News::latest()->get();
-        return view('admin.news.index', compact('news'));
-    }
 
-    public function create()
-    {
-        return view('admin.news.create');
+        $editNews = null;
+
+        if ($request->filled('edit')) {
+            $editNews = News::find($request->edit);
+        }
+
+        return view('admin.news.index', compact('news', 'editNews'));
     }
 
     public function store(Request $request)
@@ -24,6 +27,7 @@ class AdminNewsController extends Controller
             'title' => 'required',
             'content' => 'required',
             'category' => 'required',
+            'published_at' => 'nullable',
             'image' => 'nullable|image'
         ]);
 
@@ -31,17 +35,11 @@ class AdminNewsController extends Controller
             $data['image'] = $request->file('image')->store('news', 'public');
         }
 
-        $data['published_at'] = now();
+        $data['published_at'] = $request->published_at ?? now();
 
         News::create($data);
 
-        return redirect('/admin/news');
-    }
-
-    public function edit($id)
-    {
-        $news = News::findOrFail($id);
-        return view('admin.news.edit', compact('news'));
+        return redirect('/admin/news')->with('success', 'Новость успешно добавлена');
     }
 
     public function update(Request $request, $id)
@@ -56,10 +54,9 @@ class AdminNewsController extends Controller
             'image' => 'nullable|image'
         ]);
 
-        $data['published_at'] = $request->published_at;
+        $data['published_at'] = $request->published_at ?? now();
 
         if ($request->hasFile('image')) {
-
             if ($news->image) {
                 Storage::disk('public')->delete($news->image);
             }
@@ -69,7 +66,7 @@ class AdminNewsController extends Controller
 
         $news->update($data);
 
-        return redirect('/admin/news');
+        return redirect('/admin/news')->with('success', 'Новость успешно обновлена');
     }
 
     public function destroy($id)
@@ -82,6 +79,6 @@ class AdminNewsController extends Controller
 
         $news->delete();
 
-        return redirect('/admin/news');
+        return redirect('/admin/news')->with('success', 'Новость удалена');
     }
 }

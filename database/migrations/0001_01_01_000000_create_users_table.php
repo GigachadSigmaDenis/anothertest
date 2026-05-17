@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role',['student','teacher','guest','admin'])->default('guest');
+            $table->enum('role',['student','teacher','zam_dir','guest','admin'])->default('guest');
             $table->enum('studend_class',['none','1','2','3','4','5','6','7','8','9'])->default('none');
             $table->timestamps();
         });
