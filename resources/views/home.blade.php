@@ -45,6 +45,62 @@
         </div>
     </section>
 
+    <!-- ВИДЖЕТ: link.png -->
+    <div class="row mb-2">
+        <div class="col-12">
+            <a href="https://pos.gosuslugi.ru/form/" target="_blank" class="widget-link">
+                <img src="{{ asset('storage/link.png') }}" alt="Решаем вместе" class="widget-image">
+            </a>
+        </div>
+    </div>
+
+    <!-- ВИДЖЕТЫ: god-edinstva и min-education (выровнены по высоте) -->
+    <div class="row g-2 mb-2">
+        <div class="col-md-6 d-flex">
+            <div class="widget-link no-hover w-100 d-flex align-items-stretch">
+                <img src="{{ asset('storage/god-edinstva-2026-school_desktop.png') }}" alt="Год единства" class="widget-image">
+            </div>
+        </div>
+        <div class="col-md-6 d-flex">
+            <a href="https://edu.gov.ru" target="_blank" class="widget-link w-100 d-flex align-items-stretch">
+                <img src="{{ asset('storage/min-education-ru-news-school_desktop.png') }}" alt="Минпросвещения" class="widget-image">
+            </a>
+        </div>
+    </div>
+
+    <!-- ВИДЖЕТЫ: телефон доверия и запись в 1 класс (выровнены по высоте) -->
+    <div class="row g-2 mb-2">
+        <div class="col-md-6 d-flex">
+            <div class="widget-link no-hover w-100 d-flex align-items-stretch">
+                <img src="{{ asset('storage/news_258012_image_900x_.jpg') }}" alt="Телефон доверия" class="widget-image">
+            </div>
+        </div>
+        <div class="col-md-6 d-flex">
+            <a href="https://www.gosuslugi.ru/600426/1/form" target="_blank" class="widget-link w-100 d-flex align-items-stretch">
+                <img src="{{ asset('storage/Prilozhenie_Prilozhenie_Banner_k_ishodyaschee_pismo_dlya_Rukovoditeli_MOUO_Rukovoditeli_MOUO_Pismo_po_r.png') }}" alt="Запись в 1 класс" class="widget-image">
+            </a>
+        </div>
+    </div>
+
+    <!-- ВИДЖЕТ: 2022-732x1024.jpg (уменьшенный) -->
+    <div class="row mb-2">
+        <div class="col-12 text-center">
+            <a href="https://revizorro.onf.ru/" target="_blank" class="widget-link widget-small">
+                <img src="{{ asset('storage/2022-732x1024.jpg') }}" alt="Народный фронт" class="widget-image widget-small-image">
+            </a>
+        </div>
+    </div>
+
+    <!-- ВИДЖЕТ: daud2qtU5hE.jpg (уменьшенный) -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <a href="https://kurgan.information-region.ru" target="_blank" class="widget-link widget-small">
+                <img src="{{ asset('storage/daud2qtU5hE.jpeg') }}" alt="Информационный регион" class="widget-image widget-small-image">
+            </a>
+        </div>
+    </div>
+
+    <!-- Остальные секции -->
     <section class="quick-links mb-4">
         <div class="row g-3">
             <div class="col-md-3 col-sm-6">
@@ -212,6 +268,7 @@
         </div>
     </section>
 
+        <!-- БЛОК УЧИТЕЛЕЙ (только имена и фото) -->
     <section class="teachers-preview mb-4">
         <div class="section-head">
             <div>
@@ -224,29 +281,35 @@
             </a>
         </div>
 
-        <div class="row g-4">
-            @forelse($teachers ?? [] as $teacher)
-                <div class="col-lg-4 col-md-6">
-                    <a href="/teachers" class="teacher-preview-card">
-                        @if($teacher->photo)
-                            <div class="teacher-preview-photo-wrap">
-                                <img src="{{ asset('storage/' . $teacher->photo) }}"
-                                    class="teacher-preview-photo"
-                                    alt="{{ $teacher->full_name }}">
-                            </div>
-                        @else
-                            <div class="teacher-preview-empty">
-                                <span>Нет фото</span>
-                            </div>
-                        @endif
+        <div class="teachers-grid">
+            @php
+                // Берем первых 4 учителей из БД
+                $displayTeachers = $teachers->take(4);
+            @endphp
 
-                        <div class="teacher-preview-body">
-                            <h5>{{ $teacher->full_name }}</h5>
+            @forelse($displayTeachers as $teacher)
+                @php
+                    $teacherName = $teacher->full_name ?: $teacher->name;
+                @endphp
 
-                            <p>
-                                <strong>Предметы:</strong><br>
-                                {{ \Illuminate\Support\Str::limit($teacher->subjects, 90) }}
-                            </p>
+                <div class="teacher-grid-item">
+                    <a href="/teachers" class="teacher-card">
+                        <div class="teacher-card-inner">
+                            @if($teacher->photo)
+                                <div class="teacher-photo-wrap">
+                                    <img src="{{ asset('storage/' . $teacher->photo) }}"
+                                         class="teacher-photo"
+                                         alt="{{ $teacherName }}">
+                                </div>
+                            @else
+                                <div class="teacher-photo-placeholder">
+                                    {{ mb_substr($teacherName, 0, 1) }}
+                                </div>
+                            @endif
+
+                            <div class="teacher-card-body">
+                                <h4 class="teacher-name">{{ $teacherName }}</h4>
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -322,29 +385,6 @@
         @endif
     </section>
 
-    <section class="gosuslugi-box">
-        <div class="row align-items-center g-3">
-            <div class="col-lg-8">
-                <span class="page-label">Госуслуги</span>
-
-                <h3>Запись в 1 класс</h3>
-
-                <p>
-                    Подать заявление на зачисление ребёнка в первый класс
-                    можно через официальный портал Госуслуг.
-                </p>
-            </div>
-
-            <div class="col-lg-4 text-lg-end">
-                <a href="https://www.gosuslugi.ru/600426/1/form"
-                   target="_blank"
-                   class="btn btn-primary btn-lg">
-                    Подать заявление
-                </a>
-            </div>
-        </div>
-    </section>
-
 </div>
 
 <style>
@@ -362,8 +402,7 @@
 
     .home-hero,
     .info-card,
-    .latest-news,
-    .gosuslugi-box {
+    .latest-news {
         background: var(--white);
         border: 1px solid var(--border-soft);
         border-radius: 18px;
@@ -374,6 +413,144 @@
         padding: 36px;
     }
 
+    /* --- ВИДЖЕТЫ С КАРТИНКАМИ --- */
+    .widget-link {
+        display: block;
+        width: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        transition: 0.2s ease;
+        text-decoration: none;
+        border: 1px solid var(--border-soft);
+        box-shadow: var(--shadow);
+        background: var(--white);
+    }
+
+    .widget-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(15, 63, 134, 0.15);
+    }
+
+    .widget-link.no-hover {
+        cursor: default;
+    }
+
+    .widget-link.no-hover:hover {
+        transform: none;
+        box-shadow: var(--shadow);
+    }
+
+    .widget-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+
+    /* --- ВЫРАВНИВАНИЕ ПО ВЫСОТЕ --- */
+    .d-flex.align-items-stretch {
+        align-items: stretch;
+    }
+
+    .d-flex.align-items-stretch .widget-image {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* --- СТИЛИ ДЛЯ УМЕНЬШЕННЫХ ВИДЖЕТОВ --- */
+    .widget-small {
+        display: inline-block;
+        max-width: 40%;
+        border-radius: 18px;
+    }
+
+    .widget-small-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+
+    /* --- УЧИТЕЛЯ НА ГЛАВНОЙ --- */
+    .teachers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .teacher-grid-item {
+        display: flex;
+    }
+
+    .teacher-card {
+        display: flex;
+        width: 100%;
+        text-decoration: none;
+        color: var(--text-main);
+        transition: 0.2s ease;
+    }
+
+    .teacher-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .teacher-card-inner {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: var(--white);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border-soft);
+        box-shadow: var(--shadow);
+        transition: 0.2s ease;
+    }
+
+    .teacher-card:hover .teacher-card-inner {
+        box-shadow: 0 12px 30px rgba(15, 63, 134, 0.12);
+    }
+
+    .teacher-photo-wrap {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        background: var(--blue-soft);
+    }
+
+    .teacher-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        display: block;
+    }
+
+    .teacher-photo-placeholder {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--blue-soft);
+        color: var(--blue-dark);
+        font-size: 56px;
+        font-weight: 700;
+    }
+
+    .teacher-card-body {
+        padding: 14px 14px 16px;
+        text-align: center;
+    }
+
+    .teacher-name {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--blue-dark);
+        line-height: 1.3;
+    }
+
+    /* --- ОСТАЛЬНЫЕ СТИЛИ --- */
     .page-label {
         display: inline-block;
         background: var(--blue-soft);
@@ -555,6 +732,21 @@
         font-weight: 800;
     }
 
+    .category-safety {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .category-career {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .category-education {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
     .news-content h4 {
         margin-top: 14px;
         margin-bottom: 10px;
@@ -592,28 +784,89 @@
         color: var(--text-muted);
     }
 
-    .gosuslugi-box {
-        padding: 28px;
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 16px;
     }
 
-    .gosuslugi-box h3 {
-        color: var(--blue-dark);
-        font-weight: 800;
-        margin-top: 8px;
-        margin-bottom: 10px;
+    .result-item {
+        text-align: center;
+        padding: 20px;
+        background: var(--white);
+        border: 1px solid var(--border-soft);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
     }
 
-    .gosuslugi-box p {
+    .result-number {
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--blue-main);
+        line-height: 1.2;
+    }
+
+    .result-item p {
+        margin: 8px 0 0;
         color: var(--text-muted);
-        margin: 0;
-        line-height: 1.6;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .director-card {
+        background: var(--white);
+        border: 1px solid var(--border-soft);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: var(--shadow);
+    }
+
+    .director-photo {
+        width: 100%;
+        max-width: 200px;
+        border-radius: 16px;
+        border: 1px solid var(--border-soft);
+    }
+
+    .director-position {
+        color: var(--text-muted);
+        margin-bottom: 16px;
+    }
+
+    .director-info {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .director-info strong {
+        color: var(--text-main);
+        min-width: 120px;
+    }
+
+    .director-info span {
+        color: var(--text-muted);
+    }
+
+    .director-message {
+        background: var(--blue-soft);
+        border-radius: 14px;
+        padding: 20px;
+        border-left: 4px solid var(--blue-main);
+        color: var(--text-main);
+        line-height: 1.7;
+    }
+
+    .director-message p {
+        margin-bottom: 12px;
     }
 
     @media (max-width: 768px) {
         .home-hero,
         .info-card,
-        .latest-news,
-        .gosuslugi-box {
+        .latest-news {
             padding: 22px;
         }
 
@@ -641,6 +894,19 @@
 
         .info-row strong {
             text-align: left;
+        }
+
+        .widget-small {
+            max-width: 80%;
+        }
+
+        .teachers-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .teacher-name {
+            font-size: 14px;
         }
     }
 </style>

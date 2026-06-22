@@ -20,7 +20,7 @@
 
         <p class="single-news-date">
             <strong>Дата публикации:</strong>
-            {{ \Carbon\Carbon::parse($news->published_at)->format('d.m.Y H:i') }}
+            {{ \Carbon\Carbon::parse($news->published_at)->format('d.m.Y') }}
         </p>
     </div>
 

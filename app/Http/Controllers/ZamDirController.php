@@ -262,9 +262,23 @@ class ZamDirController extends Controller
             'pageLabel'
         ));
     }
+
     public function announcements(Request $request)
     {
-        $announcements = Announcement::latest('published_at')
+        // Если нажата кнопка "Сбросить"
+        if ($request->has('reset')) {
+            return redirect('/zam/announcements');
+        }
+        
+        $query = Announcement::query();
+        
+        // Поиск по заголовку
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+        
+        $announcements = $query->latest('published_at')
             ->latest('id')
             ->get();
 
@@ -277,13 +291,15 @@ class ZamDirController extends Controller
         $baseUrl = '/zam/announcements';
         $backUrl = '/profile';
         $pageLabel = 'Заместитель директора';
+        $searchQuery = $request->get('search', '');
 
         return view('staff.announcements.index', compact(
             'announcements',
             'editAnnouncement',
             'baseUrl',
             'backUrl',
-            'pageLabel'
+            'pageLabel',
+            'searchQuery'
         ));
     }
 

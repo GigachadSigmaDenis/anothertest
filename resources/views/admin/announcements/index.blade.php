@@ -94,7 +94,7 @@
                             <label class="form-label">Тип</label>
                             <select name="type" class="form-select" required>
                                 <option value="info" {{ $currentType === 'info' ? 'selected' : '' }}>
-                                    Просто информирование
+                                    Информирование
                                 </option>
                                 <option value="event" {{ $currentType === 'event' ? 'selected' : '' }}>
                                     Мероприятие
@@ -125,10 +125,6 @@
                                    name="event_at"
                                    class="form-control"
                                    value="{{ old('event_at', $editAnnouncement && $editAnnouncement->event_at ? $editAnnouncement->event_at->format('Y-m-d\TH:i') : '') }}">
-
-                            <small class="text-muted">
-                                Если указана, за 5 минут до события появится уведомление.
-                            </small>
                         </div>
 
                         @if($editAnnouncement && $editAnnouncement->image)
@@ -185,11 +181,41 @@
         </form>
     </div>
 
+      <!-- Фильтр поиска -->
+    <div class="admin-announcements-filter mb-4">
+        <form method="GET" action="/admin/announcements">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <label class="form-label">Поиск по заголовку</label>
+                    <div class="d-flex gap-2">
+                        <input type="text"
+                               name="search"
+                               class="form-control"
+                               placeholder="Введите ключевое слово для поиска..."
+                               value="{{ $searchQuery ?? '' }}"
+                               style="border-radius: 8px; flex: 1; height: 48px;">
+                        <button type="submit" class="btn btn-primary" style="border-radius: 8px; white-space: nowrap; height: 48px; display: flex; align-items: center; justify-content: center; padding: 0 30px;">
+                            Найти
+                        </button>
+                        @if(!empty($searchQuery))
+                            <button type="submit" name="reset" value="1" class="btn btn-secondary" style="border-radius: 8px; white-space: nowrap; height: 48px; display: flex; align-items: center; justify-content: center; padding: 0 30px;">
+                                Сбросить
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="admin-announcements-list">
         <div class="section-head">
             <div>
                 <span class="page-label">Список</span>
                 <h3>Объявления</h3>
+                @if(!empty($searchQuery))
+                    <small class="text-muted ms-2">(поиск: "{{ $searchQuery }}")</small>
+                @endif
             </div>
         </div>
 
@@ -211,6 +237,16 @@
                             <div class="announcement-meta">
                                 <span class="announcement-type {{ $announcement->type === 'event' ? 'type-event' : 'type-info' }}">
                                     {{ $announcement->type === 'event' ? 'Мероприятие' : 'Информация' }}
+                                </span>
+
+                                <span class="announcement-audience">
+                                    @if($announcement->audience === 'students')
+                                        Для учеников
+                                    @elseif($announcement->audience === 'teachers')
+                                        Для учителей
+                                    @else
+                                        Для всех
+                                    @endif
                                 </span>
 
                                 @if($announcement->is_published)
@@ -260,8 +296,25 @@
         @else
             <div class="announcements-empty">
                 <div class="announcements-empty-icon">📢</div>
-                <h4>Объявлений пока нет</h4>
-                <p>Добавьте первое объявление через форму выше.</p>
+                <h4>
+                    @if(!empty($searchQuery))
+                        По запросу "{{ $searchQuery }}" ничего не найдено
+                    @else
+                        Объявлений пока нет
+                    @endif
+                </h4>
+                <p>
+                    @if(!empty($searchQuery))
+                        Попробуйте изменить поисковый запрос
+                    @else
+                        Добавьте первое объявление через форму выше
+                    @endif
+                </p>
+                @if(!empty($searchQuery))
+                    <a href="/admin/announcements" class="btn btn-secondary btn-sm mt-2">
+                        Показать все объявления
+                    </a>
+                @endif
             </div>
         @endif
     </div>
@@ -300,6 +353,101 @@
         </div>
     </div>
 </div>
+
+<style>
+.admin-announcements-filter {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 20px;
+    padding: 22px 30px;
+    box-shadow: 0 8px 24px rgba(15, 63, 134, 0.06);
+}
+
+.admin-announcements-filter .form-control {
+    color: #162033;
+    height: 48px;
+    font-size: 15px;
+}
+
+.admin-announcements-filter .form-control:focus {
+    border-color: #1557b0;
+    box-shadow: 0 0 0 0.2rem rgba(21, 87, 176, 0.15);
+    z-index: 2;
+}
+
+/* Стили для кнопок ТОЛЬКО внутри фильтра */
+.admin-announcements-filter .btn {
+    height: 48px;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.admin-announcements-filter .btn-primary {
+    background: #1557b0;
+    border-color: #1557b0;
+}
+
+.admin-announcements-filter .btn-primary:hover {
+    background: #0f3f86;
+    border-color: #0f3f86;
+}
+
+.admin-announcements-filter .btn-secondary {
+    background: #eef5ff;
+    border-color: #dbe3ef;
+    color: #162033;
+}
+
+.admin-announcements-filter .btn-secondary:hover {
+    background: #dbe3ef;
+    border-color: #c5d3e8;
+    color: #162033;
+}
+
+.admin-announcements-filter .d-flex {
+    gap: 10px;
+    align-items: stretch;
+}
+
+/* Стили для кнопки "Новое объявление" - возвращаем нормальный вид */
+.admin-announcements-editor-head .btn-sm {
+    height: auto !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 5px 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1.5 !important;
+    min-height: 31px !important;
+    width: auto !important;
+}
+
+@media (max-width: 768px) {
+    .admin-announcements-filter {
+        padding: 18px;
+    }
+    
+    .admin-announcements-filter .d-flex {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .admin-announcements-filter .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .admin-announcements-filter .form-control {
+        border-radius: 8px !important;
+    }
+}
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -25,11 +25,11 @@
                                     {{ $item->category }}
                                 </span>
 
-                                <h4>{{ $item->title }}</h4>
+                                <h4>{{ \Illuminate\Support\Str::limit($item->title, 100) }}</h4>
 
                                 <p class="news-date">
                                     <strong>Дата публикации:</strong>
-                                    {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y H:i') }}
+                                    {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y') }}
                                 </p>
 
                                 <p class="news-list-text">
@@ -46,7 +46,7 @@
                             @if($item->image)
                                 <img src="{{ asset('storage/' . $item->image) }}"
                                      class="news-list-image"
-                                     alt="{{ $item->title }}">
+                                     alt="{{ \Illuminate\Support\Str::limit($item->title, 50) }}">
                             @else
                                 <div class="news-list-placeholder">
                                     <span>Нет фото</span>

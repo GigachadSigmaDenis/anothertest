@@ -69,16 +69,6 @@
                     {{ $announcement->type === 'event' ? 'Мероприятие' : 'Информирование' }}
                 </span>
 
-                <span class="announcement-audience">
-                    @if($announcement->audience === 'students')
-                        Для учеников
-                    @elseif($announcement->audience === 'teachers')
-                        Для учителей
-                    @else
-                        Для всех
-                    @endif
-                </span>
-
                 @if($isSoonUnread)
                     <span class="announcement-soon-label">
                         Скоро

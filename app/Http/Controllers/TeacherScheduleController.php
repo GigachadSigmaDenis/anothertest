@@ -3,36 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
-use Illuminate\Http\Request;
+use App\Models\ScheduleTemplate;
+use App\Models\Teacher;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class TeacherScheduleController extends Controller
 {
     public function index(Request $request)
     {
-        $weekStart = $request->filled('week_start')
-            ? Carbon::parse($request->week_start)->startOfWeek(Carbon::MONDAY)
-            : Carbon::now()->startOfWeek(Carbon::MONDAY);
+        $weekStart = $this->weekStartFromRequest($request);
+        $weekStartDate = $weekStart->toDateString();
 
-        $weekStartDate = $weekStart->format('Y-m-d');
+        $class = trim((string) $request->get('class', Schedule::query()->orderBy('class')->value('class') ?: '1'));
+        $selectedDay = trim((string) $request->get('day', 'Понедельник'));
 
-        $class = $request->get('class', '5');
-        $selectedDay = $request->get('day');
+        $days = $this->days();
+        $lessons = range(1, 8);
 
-        $days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'];
-        $lessons = range(1, 7);
-
-        $schedule = [];
-
-        foreach ($days as $day) {
-            foreach ($lessons as $lesson) {
-                $schedule[$day][$lesson] = Schedule::where('class', $class)
-                    ->where('day', $day)
-                    ->where('lesson_number', $lesson)
-                    ->whereDate('week_start_date', $weekStartDate)
-                    ->value('subject') ?? '';
-            }
+        if (!in_array($selectedDay, $days, true)) {
+            $selectedDay = 'Понедельник';
         }
+
+        $classes = $this->classes();
+        $schedule = $this->buildScheduleMatrix($weekStartDate, $class, $days, $lessons);
+        $subjects = $this->subjectSuggestions();
+        
+        // Проверяем наличие шаблона для этого класса и дня
+        $hasTemplate = ScheduleTemplate::hasTemplate($class, $selectedDay);
 
         return view('teacher.schedule.index', compact(
             'schedule',
@@ -41,63 +39,236 @@ class TeacherScheduleController extends Controller
             'weekStart',
             'weekStartDate',
             'class',
-            'selectedDay'
+            'selectedDay',
+            'classes',
+            'subjects',
+            'hasTemplate'
         ));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'class' => 'required|string',
-            'day' => 'required|string',
+        $data = $request->validate([
+            'class' => 'required|string|max:50',
+            'day' => 'required|string|max:50',
             'week_start_date' => 'required|date',
             'lessons' => 'required|array',
-            'lessons.*' => 'nullable|string'
+            'lessons.*' => 'nullable|string|max:255',
         ]);
 
-        $weekStart = Carbon::parse($request->week_start_date)
-            ->startOfWeek(Carbon::MONDAY)
-            ->format('Y-m-d');
+        $weekStart = Carbon::parse($data['week_start_date'])->startOfWeek(Carbon::MONDAY)->toDateString();
 
-        Schedule::where('class', $request->class)
-            ->where('day', $request->day)
+        Schedule::where('class', $data['class'])
+            ->where('day', $data['day'])
             ->whereDate('week_start_date', $weekStart)
             ->delete();
 
-        foreach ($request->lessons as $number => $subject) {
-            if ($subject && trim($subject) !== '' && trim($subject) !== '-') {
+        foreach ($data['lessons'] as $number => $subject) {
+            $subject = trim((string) $subject);
+
+            if ($subject === '') {
+                continue;
+            }
+
+            Schedule::create([
+                'class' => trim((string) $data['class']),
+                'day' => trim((string) $data['day']),
+                'lesson_number' => (int) $number,
+                'subject' => $subject,
+                'teacher_name' => null,
+                'week_start_date' => $weekStart,
+            ]);
+        }
+
+        return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&day=' . urlencode($data['day']) . '&week_start_date=' . $weekStart)
+            ->with('success', 'Расписание успешно сохранено.');
+    }
+
+    public function destroyDay(Request $request)
+    {
+        $data = $request->validate([
+            'class' => 'required|string|max:50',
+            'day' => 'required|string|max:50',
+            'week_start_date' => 'required|date',
+        ]);
+
+        $weekStart = Carbon::parse($data['week_start_date'])->startOfWeek(Carbon::MONDAY)->toDateString();
+
+        Schedule::where('class', $data['class'])
+            ->where('day', $data['day'])
+            ->whereDate('week_start_date', $weekStart)
+            ->delete();
+
+        return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&week_start_date=' . $weekStart)
+            ->with('success', 'Расписание на день удалено.');
+    }
+
+    // Применить шаблон к текущему дню
+    public function applyTemplate(Request $request)
+    {
+        $data = $request->validate([
+            'class' => 'required|string|max:50',
+            'day' => 'required|string|max:50',
+            'week_start_date' => 'required|date',
+        ]);
+
+        $weekStart = Carbon::parse($data['week_start_date'])->startOfWeek(Carbon::MONDAY)->toDateString();
+
+        // Получаем шаблон
+        $templates = ScheduleTemplate::where('class', $data['class'])
+            ->where('day', $data['day'])
+            ->orderBy('lesson_number')
+            ->get();
+
+        if ($templates->isEmpty()) {
+            return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&day=' . urlencode($data['day']) . '&week_start_date=' . $weekStart)
+                ->with('error', 'Шаблон для этого класса и дня не найден.');
+        }
+
+        // Удаляем существующее расписание
+        Schedule::where('class', $data['class'])
+            ->where('day', $data['day'])
+            ->whereDate('week_start_date', $weekStart)
+            ->delete();
+
+        // Вставляем из шаблона
+        foreach ($templates as $template) {
+            if ($template->subject) {
                 Schedule::create([
-                    'class' => $request->class,
-                    'day' => $request->day,
-                    'lesson_number' => $number,
-                    'subject' => trim($subject),
+                    'class' => $data['class'],
+                    'day' => $data['day'],
+                    'lesson_number' => $template->lesson_number,
+                    'subject' => $template->subject,
+                    'teacher_name' => $template->teacher_name,
                     'week_start_date' => $weekStart,
                 ]);
             }
         }
 
-        return redirect('/zam/schedule?class=' . urlencode($request->class) . '&week_start=' . $weekStart)
-            ->with('success', 'Расписание успешно сохранено');
+        return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&day=' . urlencode($data['day']) . '&week_start_date=' . $weekStart)
+            ->with('success', 'Расписание успешно применено из шаблона.');
     }
 
-    public function destroyDay(Request $request)
+    // Сохранить текущее расписание как шаблон
+    public function saveTemplate(Request $request)
     {
-        $request->validate([
-            'class' => 'required|string',
-            'day' => 'required|string',
-            'week_start' => 'required|date'
+        $data = $request->validate([
+            'class' => 'required|string|max:50',
+            'day' => 'required|string|max:50',
+            'week_start_date' => 'required|date',
         ]);
 
-        $weekStart = Carbon::parse($request->week_start)
-            ->startOfWeek(Carbon::MONDAY)
-            ->format('Y-m-d');
+        $weekStart = Carbon::parse($data['week_start_date'])->startOfWeek(Carbon::MONDAY)->toDateString();
 
-        Schedule::where('class', $request->class)
-            ->where('day', $request->day)
+        // Получаем текущее расписание
+        $schedules = Schedule::where('class', $data['class'])
+            ->where('day', $data['day'])
             ->whereDate('week_start_date', $weekStart)
+            ->orderBy('lesson_number')
+            ->get();
+
+        if ($schedules->isEmpty()) {
+            return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&day=' . urlencode($data['day']) . '&week_start_date=' . $weekStart)
+                ->with('error', 'Нет расписания для сохранения в шаблон.');
+        }
+
+        // Удаляем старый шаблон
+        ScheduleTemplate::where('class', $data['class'])
+            ->where('day', $data['day'])
             ->delete();
 
-        return redirect('/zam/schedule?class=' . urlencode($request->class) . '&week_start=' . $weekStart)
-            ->with('success', 'Расписание на день удалено');
+        // Сохраняем новый шаблон
+        foreach ($schedules as $schedule) {
+            ScheduleTemplate::create([
+                'class' => $data['class'],
+                'day' => $data['day'],
+                'lesson_number' => $schedule->lesson_number,
+                'subject' => $schedule->subject,
+                'teacher_name' => $schedule->teacher_name,
+            ]);
+        }
+
+        return redirect('/zam/schedule?class=' . urlencode($data['class']) . '&day=' . urlencode($data['day']) . '&week_start_date=' . $weekStart)
+            ->with('success', 'Шаблон успешно сохранён.');
+    }
+
+    // Проверка наличия шаблона (для AJAX)
+    public function checkTemplate(Request $request)
+    {
+        $class = $request->get('class');
+        $day = $request->get('day');
+        
+        $hasTemplate = ScheduleTemplate::hasTemplate($class, $day);
+        
+        return response()->json(['hasTemplate' => $hasTemplate]);
+    }
+
+    private function weekStartFromRequest(Request $request): Carbon
+    {
+        $date = $request->get('week_start_date', $request->get('week_start'));
+
+        return $date
+            ? Carbon::parse($date)->startOfWeek(Carbon::MONDAY)
+            : now()->startOfWeek(Carbon::MONDAY);
+    }
+
+    private function days(): array
+    {
+        return ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница'];
+    }
+
+    private function classes()
+    {
+        $classes = Schedule::query()
+            ->select('class')
+            ->distinct()
+            ->orderBy('class')
+            ->pluck('class')
+            ->filter()
+            ->values();
+
+        return $classes->isEmpty()
+            ? collect(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
+            : $classes;
+    }
+
+    private function buildScheduleMatrix(string $weekStartDate, string $class, array $days, array $lessons): array
+    {
+        $matrix = [];
+
+        foreach ($days as $day) {
+            foreach ($lessons as $lesson) {
+                $matrix[$day][$lesson] = [
+                    'subject' => '',
+                ];
+            }
+        }
+
+        $records = Schedule::query()
+            ->whereDate('week_start_date', $weekStartDate)
+            ->where('class', $class)
+            ->get();
+
+        foreach ($records as $record) {
+            $matrix[$record->day][$record->lesson_number] = [
+                'subject' => (string) $record->subject,
+            ];
+        }
+
+        return $matrix;
+    }
+
+    private function subjectSuggestions(): array
+    {
+        return Schedule::query()
+            ->whereNotNull('subject')
+            ->where('subject', '!=', '')
+            ->distinct()
+            ->orderBy('subject')
+            ->pluck('subject')
+            ->map(fn ($subject) => trim((string) $subject))
+            ->filter(fn ($subject) => $subject !== '')
+            ->values()
+            ->all();
     }
 }

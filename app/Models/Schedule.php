@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     protected $fillable = [
+        'class',
         'day',
         'lesson_number',
-        'class',
         'subject',
-        'week_start_date'
+        'teacher_name',
+        'week_start_date',
     ];
 }

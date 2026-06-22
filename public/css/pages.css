@@ -4331,3 +4331,103 @@ body.modal-open {
     color: var(--text-main);
     text-decoration: none;
 }
+
+.admin-news-filter {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(15, 63, 134, 0.06);
+}
+
+.admin-news-filter .input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.admin-news-filter .input-group .form-control {
+    border-radius: 8px 0 0 8px;
+    border-right: none;
+    color: #162033;
+    height: 46px;
+}
+
+.admin-news-filter .input-group .form-control:focus {
+    border-color: #1557b0;
+    box-shadow: none;
+    z-index: 2;
+}
+
+.admin-news-filter .input-group .btn {
+    border-radius: 0 8px 8px 0;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 20px;
+    white-space: nowrap;
+}
+
+.admin-news-filter .input-group .btn-secondary {
+    border-radius: 8px;
+    margin-left: 6px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    white-space: nowrap;
+}
+
+.admin-news-filter .input-group .btn svg {
+    flex-shrink: 0;
+}
+
+.search-result-info {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0 0 16px;
+}
+
+.search-result-info .badge {
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #1557b0 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .admin-news-filter .input-group {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .admin-news-filter .input-group .form-control {
+        border-radius: 8px;
+        border-right: 1px solid #dbe3ef;
+        width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .admin-news-filter .input-group .btn {
+        border-radius: 8px;
+        flex: 1;
+        min-width: 80px;
+    }
+
+    .admin-news-filter .input-group .btn-secondary {
+        margin-left: 0;
+        flex: 1;
+        min-width: 80px;
+    }
+
+    .search-result-info {
+        padding: 8px 0 0 0;
+        justify-content: center;
+    }
+}
+

@@ -10,7 +10,16 @@ class AdminNewsController extends Controller
 {
     public function index(Request $request)
     {
-        $news = News::latest()->get();
+        $query = News::query();
+        
+        // Поиск по названию
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+        
+        // Сортировка по дате публикации (новые сверху)
+        $news = $query->orderBy('published_at', 'desc')->get();
 
         $editNews = null;
 
@@ -18,18 +27,24 @@ class AdminNewsController extends Controller
             $editNews = News::find($request->edit);
         }
 
-        return view('admin.news.index', compact('news', 'editNews'));
+        // Сохраняем поисковый запрос для отображения в форме
+        $searchQuery = $request->get('search', '');
+
+        return view('admin.news.index', compact('news', 'editNews', 'searchQuery'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required',
+            'title' => 'required|string|max:255',
             'content' => 'required',
             'category' => 'required',
             'published_at' => 'nullable',
             'image' => 'nullable|image'
         ]);
+
+        // Обрезаем заголовок до 255 символов
+        $data['title'] = substr($data['title'], 0, 255);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('news', 'public');
@@ -47,12 +62,15 @@ class AdminNewsController extends Controller
         $news = News::findOrFail($id);
 
         $data = $request->validate([
-            'title' => 'required',
+            'title' => 'required|string|max:255',
             'content' => 'required',
             'category' => 'required',
             'published_at' => 'nullable',
             'image' => 'nullable|image'
         ]);
+
+        // Обрезаем заголовок до 255 символов
+        $data['title'] = substr($data['title'], 0, 255);
 
         $data['published_at'] = $request->published_at ?? now();
 

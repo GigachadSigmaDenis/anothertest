@@ -10,7 +10,20 @@ class AdminAnnouncementController extends Controller
 {
     public function index(Request $request)
     {
-        $announcements = Announcement::latest('published_at')
+        // Если нажата кнопка "Сбросить"
+        if ($request->has('reset')) {
+            return redirect('/admin/announcements');
+        }
+        
+        $query = Announcement::query();
+        
+        // Поиск по заголовку
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where('title', 'like', '%' . $search . '%');
+        }
+        
+        $announcements = $query->latest('published_at')
             ->latest('id')
             ->get();
 
@@ -20,9 +33,12 @@ class AdminAnnouncementController extends Controller
             $editAnnouncement = Announcement::find($request->edit);
         }
 
+        $searchQuery = $request->get('search', '');
+
         return view('admin.announcements.index', compact(
             'announcements',
-            'editAnnouncement'
+            'editAnnouncement',
+            'searchQuery'
         ));
     }
 

@@ -47,7 +47,7 @@ Route::prefix('about')->group(function () {
 // ---------------------
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
@@ -80,13 +80,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::post('/update/{id}', [AdminTeacherController::class, 'update']);
         Route::delete('/delete/{id}', [AdminTeacherController::class, 'destroy']);
     });
+    Route::get('/admin/schedule/check-template', [AdminScheduleController::class, 'checkTemplate'])->name('admin.schedule.check-template');
 
-    // SCHEDULE
-    Route::prefix('schedule')->group(function () {
-        Route::get('/', [AdminScheduleController::class, 'index'])->name('admin.schedule.index');
-        Route::post('/store', [AdminScheduleController::class, 'store'])->name('admin.schedule.store');
-        Route::post('/delete-day', [AdminScheduleController::class, 'destroyDay'])->name('admin.schedule.delete-day');
-    });
 
     // DOCUMENTS
     Route::prefix('documents')->group(function () {
@@ -95,6 +90,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
         Route::post('/update/{id}', [AdminDocumentController::class, 'update']);
         Route::delete('/delete/{id}', [AdminDocumentController::class, 'destroy']);
         Route::post('/update-order', [AdminDocumentController::class, 'updateOrder']);
+        Route::post('/check-duplicate', [AdminDocumentController::class, 'checkDuplicate'])->name('admin.documents.check-duplicate');
     });
 
     // USERS (ADMIN)
@@ -133,7 +129,24 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->group(function () {
 
     Route::get('/grades', [TeacherController::class, 'grades']);
 });
+// Зам. директора - расписание
+Route::prefix('zam/schedule')->group(function () {
+    Route::get('/', [TeacherScheduleController::class, 'index']);
+    Route::post('/store', [TeacherScheduleController::class, 'store']);
+    Route::post('/delete-day', [TeacherScheduleController::class, 'destroyDay']);
+    Route::post('/apply-template', [TeacherScheduleController::class, 'applyTemplate']);
+    Route::post('/save-template', [TeacherScheduleController::class, 'saveTemplate']);
+    Route::get('/check-template', [TeacherScheduleController::class, 'checkTemplate'])->name('zam.schedule.check-template');
+});
 
+// Админ - расписание
+Route::prefix('admin/schedule')->group(function () {
+    Route::get('/', [AdminScheduleController::class, 'index']);
+    Route::post('/store', [AdminScheduleController::class, 'store']);
+    Route::post('/delete-day', [AdminScheduleController::class, 'destroyDay']);
+    Route::post('/apply-template', [AdminScheduleController::class, 'applyTemplate']);
+    Route::post('/save-template', [AdminScheduleController::class, 'saveTemplate']);
+});
 // ---------------------
 // ZAM DIRECTOR ROUTES
 // ---------------------

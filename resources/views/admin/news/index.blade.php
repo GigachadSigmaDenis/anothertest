@@ -109,11 +109,11 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Дата и время публикации</label>
-                            <input type="datetime-local"
+                            <label class="form-label">Дата публикации</label>
+                            <input type="date"
                                    name="published_at"
                                    class="form-control"
-                                   value="{{ old('published_at', $editNews && $editNews->published_at ? \Carbon\Carbon::parse($editNews->published_at)->format('Y-m-d\TH:i') : now()->format('Y-m-d\TH:i')) }}">
+                                   value="{{ old('published_at', $editNews && $editNews->published_at ? \Carbon\Carbon::parse($editNews->published_at)->format('Y-m-d') : now()->format('Y-m-d')) }}">
                         </div>
 
                         @if($editNews && $editNews->image)
@@ -166,11 +166,50 @@
         </form>
     </div>
 
+    <!-- Фильтр поиска -->
+    <div class="admin-news-filter mb-4">
+        <form method="GET" action="/admin/news">
+            <div class="row">
+                <div class="col-md-8">
+                    <label class="form-label">Поиск по названию</label>
+                    <div class="d-flex">
+                        <input type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Введите ключевое слово для поиска..."
+                            value="{{ $searchQuery ?? '' }}"
+                            style="border-radius: 8px 0 0 8px;">
+                        <button type="submit" class="btn btn-primary" style="border-radius: 0 8px 8px 0; white-space: nowrap;">
+                            Найти
+                        </button>
+                        @if(!empty($searchQuery))
+                            <a href="/admin/news" class="btn btn-secondary" style="border-radius: 8px; margin-left: 6px; white-space: nowrap;">
+                                Сбросить
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    @if(!empty($searchQuery))
+                        <div class="ms-3 mb-1">
+                            <span class="badge bg-primary p-2 px-3" style="font-size: 15px; font-weight: 600;">
+                                Найдено новостей: {{ $news->count() }}
+                            </span>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="admin-news-list">
         <div class="section-head">
             <div>
                 <span class="page-label">Список</span>
                 <h3>Опубликованные новости</h3>
+                @if(!empty($searchQuery))
+                    <small class="text-muted ms-2">(поиск: "{{ $searchQuery }}")</small>
+                @endif
             </div>
         </div>
 
@@ -202,7 +241,7 @@
                             </h4>
 
                             <p class="admin-news-date">
-                                {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y H:i') }}
+                                {{ \Carbon\Carbon::parse($item->published_at)->format('d.m.Y') }}
                             </p>
 
                             <p class="admin-news-text">
@@ -239,7 +278,19 @@
             <div class="admin-news-empty">
                 <div class="admin-news-empty-icon">📰</div>
                 <h4>Новостей пока нет</h4>
-                <p>Добавьте первую новость через форму выше.</p>
+                <p>
+                    @if(!empty($searchQuery))
+                        По запросу "{{ $searchQuery }}" ничего не найдено.
+                        Попробуйте изменить поисковый запрос.
+                    @else
+                        Добавьте первую новость через форму выше.
+                    @endif
+                </p>
+                @if(!empty($searchQuery))
+                    <a href="/admin/news" class="btn btn-secondary btn-sm mt-2">
+                        Показать все новости
+                    </a>
+                @endif
             </div>
         @endif
     </div>
@@ -280,6 +331,267 @@
         </div>
     </div>
 </div>
+
+<style>
+.admin-news-filter {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(15, 63, 134, 0.06);
+}
+
+.admin-news-filter .form-control {
+    color: #162033;
+}
+
+.admin-news-filter .btn svg {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.admin-news-current-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #dbe3ef;
+}
+
+.admin-news-preview-box {
+    margin-top: 12px;
+}
+
+.admin-news-preview {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #dbe3ef;
+}
+
+.admin-news-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.admin-news-actions .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+.admin-news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.admin-news-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(15, 63, 134, 0.06);
+    transition: 0.2s ease;
+}
+
+.admin-news-card:hover {
+    box-shadow: 0 8px 24px rgba(15, 63, 134, 0.12);
+}
+
+.admin-news-card-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.admin-news-card-placeholder {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fbff;
+    color: #64748b;
+    border-bottom: 1px solid #dbe3ef;
+}
+
+.admin-news-card-body {
+    padding: 18px;
+}
+
+.admin-news-card-body h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f3f86;
+    margin: 10px 0 8px;
+}
+
+.admin-news-date {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.admin-news-text {
+    font-size: 14px;
+    color: #162033;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.admin-news-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-news-empty {
+    text-align: center;
+    padding: 48px 20px;
+    background: #f8fbff;
+    border-radius: 16px;
+    border: 1px dashed #dbe3ef;
+}
+
+.admin-news-empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.admin-news-empty h4 {
+    color: #0f3f86;
+    margin-bottom: 8px;
+}
+
+.admin-news-empty p {
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+.admin-news-empty .btn {
+    min-width: 200px;
+}
+
+.news-category {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.category-safety {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.category-career {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.category-education {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+@media (max-width: 768px) {
+    .admin-news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-news-filter .d-flex {
+        flex-direction: column;
+    }
+
+    .admin-news-filter .btn {
+        width: 100%;
+    }
+
+    .admin-news-actions .btn {
+        flex: none;
+        width: 100%;
+    }
+}
+
+/* Delete Modal */
+.admin-delete-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(15, 32, 51, 0.58);
+}
+
+.admin-delete-modal-box {
+    position: relative;
+    width: min(100%, 460px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    background: #ffffff;
+    color: #162033;
+    border: 1px solid #dbe3ef;
+    border-radius: 22px;
+    box-shadow: 0 24px 70px rgba(15, 63, 134, 0.24);
+    padding: 28px;
+    text-align: center;
+}
+
+.admin-delete-modal-box h3 {
+    color: #0f3f86;
+    margin-bottom: 12px;
+}
+
+.admin-delete-modal-box p,
+.admin-delete-modal-box strong {
+    color: #162033;
+    overflow-wrap: anywhere;
+}
+
+.admin-delete-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: #eef5ff;
+    color: #0f3f86;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.admin-delete-modal-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.admin-delete-modal-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.admin-delete-modal-actions .btn {
+    min-width: 100px;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

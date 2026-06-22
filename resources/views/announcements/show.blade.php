@@ -21,15 +21,6 @@
                 {{ $announcement->type === 'event' ? 'Мероприятие' : 'Информирование' }}
             </span>
 
-            <span class="announcement-audience">
-                @if($announcement->audience === 'students')
-                    Для учеников
-                @elseif($announcement->audience === 'teachers')
-                    Для учителей
-                @else
-                    Для всех
-                @endif
-            </span>
         </div>
 
         <div class="announcement-show-dates">
@@ -66,5 +57,19 @@
     </div>
 
 </section>
+
+<style>
+.section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.section-link {
+    flex-shrink: 0;
+}
+</style>
 
 @endsection
