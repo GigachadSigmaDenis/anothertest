@@ -1,35 +1,3 @@
-@php
-    $layoutHasSoonEvent = false;
-
-    $audiences = ['all'];
-
-    if (auth()->check()) {
-        $role = auth()->user()->role;
-
-        if ($role === 'student') {
-            $audiences = ['all', 'students'];
-        } elseif (in_array($role, ['teacher', 'zam_dir', 'admin'])) {
-            $audiences = ['all', 'students', 'teachers'];
-        }
-    }
-
-    $layoutHasSoonEvent = \App\Models\Announcement::where('is_published', true)
-        ->where('type', 'event')
-        ->whereIn('audience', $audiences)
-        ->whereNotNull('event_at')
-        ->where('event_at', '>=', now())
-        ->where('event_at', '<=', now()->addDay())
-        ->where(function ($query) {
-            $query->whereNull('published_at')
-                ->orWhere('published_at', '<=', now());
-        })
-        ->when(auth()->check(), function ($query) {
-            $query->whereDoesntHave('reads', function ($readQuery) {
-                $readQuery->where('user_id', auth()->id());
-            });
-        })
-        ->exists();
-@endphp
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -73,63 +41,76 @@
         </button>
 
         <div class="navbar-nav ms-auto">
-    <a class="nav-link" href="/news">Новости</a>
-    <a class="nav-link announcements-nav-link {{ $layoutHasSoonEvent ? 'announcements-nav-link-active' : '' }}"
-    href="/announcements">
-        Объявления
+            <a class="nav-link" href="/news">Новости</a>
+            <a class="nav-link announcements-nav-link {{ $layoutHasSoonEvent ? 'announcements-nav-link-active' : '' }}"
+               href="/announcements">
+                Объявления
 
-        @if($layoutHasSoonEvent)
-            <span class="announcements-nav-dot"></span>
-        @endif
-    </a>
-    <a class="nav-link" href="/about">О школе</a>
-    <a class="nav-link" href="/teachers">Учителя</a>
-    <a class="nav-link" href="/schedule">Расписание</a>
-
-    @auth
-        @php
-            $currentRole = auth()->user()->role;
-        @endphp
-
-        <a class="nav-link" href="/profile">Профиль</a>
-
-        <div class="nav-control-wrapper">
-            <button type="button"
-                    class="nav-link nav-control-btn"
-                    onclick="this.parentElement.classList.toggle('active')">
-                Панель управления →
-            </button>
-
-            <div class="nav-control-panel">
-                @if($currentRole === 'admin')
-                    <a href="/admin/dashboard">Админ-панель</a>
-
-                @elseif($currentRole === 'zam_dir')
-                    <a href="/zam/classes">Редактор классов</a>
-                    <a href="/zam/schedule">Редактор расписания</a>
-                    <a href="/zam/diary">Электронный дневник</a>
-                    <a href="/zam/grades">Все оценки</a>
-                    <a href="/zam/announcements">Объявления</a>
-
-                @elseif($currentRole === 'teacher')
-                    <a href="/teacher/diary">Электронный дневник</a>
-                    <a href="/teacher/grades">Все оценки</a>
-
-                @elseif($currentRole === 'student')
-                    <a href="/diary">Электронный дневник</a>
-
-                @else
-                    <span>Нет доступных разделов</span>
+                @if($layoutHasSoonEvent)
+                    <span class="announcements-nav-dot"></span>
                 @endif
-            </div>
-        </div>
+            </a>
+            <a class="nav-link" href="/about">О школе</a>
+            <a class="nav-link" href="/teachers">Учителя</a>
+            <a class="nav-link" href="/schedule">Расписание</a>
 
-        <a class="nav-link" href="/logout">Выйти</a>
-    @else
-        <a class="nav-link" href="/login">Вход</a>
-        <a class="nav-link" href="/register">Регистрация</a>
-    @endauth
-</div>
+            @auth
+                @php
+                    $currentRole = auth()->user()->role;
+                @endphp
+
+                <a class="nav-link" href="/profile">Профиль</a>
+
+                <div class="nav-control-wrapper">
+                    <button type="button"
+                            class="nav-link nav-control-btn"
+                            onclick="this.parentElement.classList.toggle('active')">
+                        @if($currentRole === 'admin')
+                            Админ-панель ↓
+                        @elseif($currentRole === 'zam_dir')
+                            Панель зама ↓
+                        @else
+                            Панель управления ↓
+                        @endif
+                    </button>
+
+                    <div class="nav-control-panel">
+                        @if($currentRole === 'admin')
+                            <a href="/admin/dashboard">Админ-панель</a>
+                            <a href="/admin/news">Новости</a>
+                            <a href="/admin/teachers">Учителя</a>
+                            <a href="/admin/schedule">Расписание</a>
+                            <a href="/admin/documents">Документы</a>
+                            <a href="/admin/users">Пользователи</a>
+                            <a href="/admin/diary">Электронный дневник</a>
+                            <a href="/admin/announcements">Объявления</a>
+
+                        @elseif($currentRole === 'zam_dir')
+                            <a href="/zam/classes">Редактор классов</a>
+                            <a href="/zam/schedule">Редактор расписания</a>
+                            <a href="/zam/diary">Электронный дневник</a>
+                            <a href="/zam/grades">Все оценки</a>
+                            <a href="/zam/announcements">Объявления</a>
+
+                        @elseif($currentRole === 'teacher')
+                            <a href="/teacher/diary">Электронный дневник</a>
+                            <a href="/teacher/grades">Все оценки</a>
+
+                        @elseif($currentRole === 'student')
+                            <a href="/diary">Электронный дневник</a>
+
+                        @else
+                            <span>Нет доступных разделов</span>
+                        @endif
+                    </div>
+                </div>
+
+                <a class="nav-link" href="/logout">Выйти</a>
+            @else
+                <a class="nav-link" href="/login">Вход</a>
+                <a class="nav-link" href="/register">Регистрация</a>
+            @endauth
+        </div>
     </div>
 </nav>
 
@@ -192,6 +173,95 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+.nav-control-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-control-btn {
+    background: none;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: #162033;
+    transition: 0.2s;
+}
+
+.nav-control-btn:hover {
+    color: #1557b0;
+}
+
+.nav-control-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 220px;
+    background: #ffffff;
+    border: 1px solid #dbe3ef;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(15, 63, 134, 0.15);
+    padding: 8px 0;
+    z-index: 1050;
+}
+
+.nav-control-panel a,
+.nav-control-panel span {
+    display: block;
+    padding: 8px 18px;
+    color: #162033;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.15s;
+    white-space: nowrap;
+}
+
+.nav-control-panel a:hover {
+    background: #eef5ff;
+    color: #0f3f86;
+}
+
+.nav-control-panel span {
+    color: #64748b;
+    cursor: default;
+}
+
+.nav-control-wrapper.active .nav-control-panel {
+    display: block;
+}
+
+.nav-control-wrapper.active .nav-control-btn {
+    color: #1557b0;
+}
+
+.announcements-nav-link {
+    position: relative;
+}
+
+.announcements-nav-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #dc3545;
+    border-radius: 50%;
+    margin-left: 4px;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.3);
+    }
+}
+</style>
 
 </body>
 </html>
