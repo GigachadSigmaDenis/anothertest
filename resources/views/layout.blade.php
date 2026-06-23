@@ -1,3 +1,36 @@
+@php
+    $layoutHasSoonEvent = false;
+
+    $audiences = ['all'];
+
+    if (auth()->check()) {
+        $role = auth()->user()->role;
+
+        if ($role === 'student') {
+            $audiences = ['all', 'students'];
+        } elseif (in_array($role, ['teacher', 'zam_dir', 'admin'])) {
+            $audiences = ['all', 'students', 'teachers'];
+        }
+    }
+
+    $layoutHasSoonEvent = \App\Models\Announcement::where('is_published', true)
+        ->where('type', 'event')
+        ->whereIn('audience', $audiences)
+        ->whereNotNull('event_at')
+        ->where('event_at', '>=', now())
+        ->where('event_at', '<=', now()->addDay())
+        ->where(function ($query) {
+            $query->whereNull('published_at')
+                ->orWhere('published_at', '<=', now());
+        })
+        ->when(auth()->check(), function ($query) {
+            $query->whereDoesntHave('reads', function ($readQuery) {
+                $readQuery->where('user_id', auth()->id());
+            });
+        })
+        ->exists();
+@endphp
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
